@@ -14,6 +14,10 @@ type ContactPayload = {
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as ContactPayload;
+    console.log('[contact] env check:', {
+      N8N_WEBHOOK_URL: !!process.env.N8N_WEBHOOK_URL,
+      NODE_ENV: process.env.NODE_ENV,
+    });
     const webhookUrl = process.env.N8N_WEBHOOK_URL;
 
     if (!webhookUrl) {
