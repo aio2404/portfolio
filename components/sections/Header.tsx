@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Calendar, Download } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { getContent, profile, Language } from '@/data/portfolioData';
 
 type HeaderProps = {
@@ -12,14 +12,17 @@ export default function Header({ lang, onLanguageChange }: HeaderProps) {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-accent-3/50 bg-bg-0/85 shadow-[0_10px_40px_rgba(196,148,177,0.22)] backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="flex h-16 items-center px-4 sm:px-6 lg:px-8">
+        {/* Logo — vraiment dans le coin gauche */}
         <Link
           href="#home"
           className="text-sm font-semibold tracking-[0.16em] text-[#4f245d] drop-shadow-sm"
         >
           {profile.name}
         </Link>
-        <nav aria-label="Navigation principale" className="hidden gap-6 lg:flex">
+
+        {/* Nav — centrée dans l'espace restant */}
+        <nav aria-label="Navigation principale" className="hidden flex-1 justify-center gap-6 lg:flex">
           {content.navItems.map((item) => (
             <Link
               key={item.id}
@@ -30,30 +33,9 @@ export default function Header({ lang, onLanguageChange }: HeaderProps) {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-2">
-          {/* CV download */}
-          <a
-            href={profile.cvUrl}
-            download
-            className="hidden items-center gap-1.5 rounded-full border border-accent-1/30 bg-accent-3/15 px-3 py-2 text-xs font-semibold text-[#4f245d] transition-colors hover:border-accent-2 hover:text-accent-2 sm:inline-flex"
-            aria-label={content.header.cvLabel}
-          >
-            <Download size={13} />
-            {content.header.cvLabel}
-          </a>
 
-          {/* Book a call */}
-          <a
-            href={profile.bookingUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden items-center gap-1.5 rounded-full border border-accent-2/40 bg-accent-2/10 px-3 py-2 text-xs font-semibold text-[#4f245d] transition-colors hover:border-accent-2 hover:bg-accent-2/20 sm:inline-flex"
-          >
-            <Calendar size={13} />
-            {content.header.bookingLabel}
-          </a>
-
-          {/* Get in touch */}
+        {/* Actions — coin droit */}
+        <div className="ml-auto flex items-center gap-2">
           <a
             href="#contact"
             className="inline-flex items-center gap-2 rounded-full border border-accent-1/55 bg-accent-2/25 px-4 py-2 text-sm font-semibold text-[#4f245d] transition-colors hover:border-accent-1 hover:text-[#2f0f33]"
@@ -61,8 +43,6 @@ export default function Header({ lang, onLanguageChange }: HeaderProps) {
             {content.header.contactButton}
             <ArrowRight size={16} />
           </a>
-
-          {/* Language switcher */}
           <button
             type="button"
             aria-label="Change language"

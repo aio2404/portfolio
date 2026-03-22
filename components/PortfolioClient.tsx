@@ -7,7 +7,7 @@ import AboutSection from '@/components/sections/AboutSection';
 import SkillsSection from '@/components/sections/SkillsSection';
 import ProjectsSection from '@/components/sections/ProjectsSection';
 import LiveDemosSection from '@/components/sections/LiveDemosSection';
-import TestimonialsSection from '@/components/sections/TestimonialsSection';
+import XPostDemoSection from '@/components/sections/XPostDemoSection';
 import MethodSection from '@/components/sections/MethodSection';
 import ContactSection from '@/components/sections/ContactSection';
 import Footer from '@/components/sections/Footer';
@@ -47,7 +47,7 @@ export default function PortfolioClient() {
       <SkillsSection lang={lang} />
       <ProjectsSection lang={lang} />
       <LiveDemosSection lang={lang} />
-      <TestimonialsSection lang={lang} />
+      <XPostDemoSection lang={lang} />
       <MethodSection lang={lang} />
       <ContactSection lang={lang} />
       <Footer lang={lang} />

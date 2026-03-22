@@ -36,6 +36,7 @@ export type LiveDemo = {
   url: string;
   badge: string;
   external: boolean;
+  hint: string;
 };
 
 export const profile = {
@@ -126,246 +127,246 @@ export type PortfolioContent = {
 
 const enProjects: Project[] = [
   {
-    title: 'AI email automation agent with n8n',
+    title: 'n8n social media automation workflows',
     description:
-      'An AI flow that receives incoming emails, prioritizes them, extracts actions, and generates standardized tickets.',
-    stack: ['n8n', 'OpenAI', 'Webhook', 'Postgres', 'Docker'],
-    github: 'https://github.com/aio2404/agent-email-ia',
+      'Ready-to-deploy n8n templates that automate content publishing on YouTube, TikTok, Instagram and X — from content generation with AI to scheduling and posting.',
+    stack: ['n8n', 'OpenAI', 'YouTube API', 'TikTok API', 'Instagram API', 'Webhooks'],
+    github: '',
     demo: '',
-    slug: 'ai-email-automation',
+    slug: 'n8n-social-media-automation',
     metrics: [
-      { label: 'Emails processed / day', value: '200+' },
-      { label: 'Manual triage time saved', value: '−80%' },
-      { label: 'Ticket creation time', value: '<3 s' },
+      { label: 'Posts published / day', value: '50+' },
+      { label: 'Manual work saved', value: '95%' },
+      { label: 'Platforms covered', value: '4+' },
     ],
     highlights: [
-      'Automatic priority classification via LLM',
-      'Action extraction and structured ticket generation',
-      'Postgres storage with full audit trail',
-      'Slack alert on high-priority items',
+      'AI content generation',
+      'Multi-platform scheduling',
+      'Auto-repost logic',
+      'Error handling & retry',
     ],
   },
   {
-    title: 'CI/CD modernization for microservices',
+    title: 'AI-powered report generation',
     description:
-      'Automated build, integration, and deployment workflows for microservices on Kubernetes, Docker and Azure.',
-    stack: ['Kubernetes', 'Docker', 'Azure', 'Jenkins', 'CI/CD'],
-    github: 'https://github.com/aio2404/microservices-cicd',
+      'Automated reporting pipeline that collects data from multiple sources, processes it with an LLM, and generates formatted reports delivered by email or Slack.',
+    stack: ['n8n', 'OpenAI', 'PostgreSQL', 'APIs', 'Slack'],
+    github: '',
     demo: '',
-    slug: 'cicd-microservices',
+    slug: 'ai-report-generation',
     metrics: [
-      { label: 'Deploy time', value: '−65%' },
-      { label: 'Build failures', value: '−70%' },
-      { label: 'Environments covered', value: '3' },
+      { label: 'Reports / week', value: '20+' },
+      { label: 'Generation time', value: '<2 min' },
+      { label: 'Manual effort', value: '0' },
     ],
     highlights: [
-      'Full build / test / deploy pipeline',
-      'Multi-environment support (dev / staging / prod)',
-      'Kubernetes rolling update strategy',
-      'Azure Container Registry integration',
+      'Multi-source data aggregation',
+      'LLM-powered analysis and formatting',
+      'Auto-delivery via email and Slack',
+      'Scheduled or event-triggered',
     ],
   },
   {
-    title: 'DevOps monitoring dashboard',
+    title: 'Voice AI call agent',
     description:
-      'Unified view of alerts, latency, health and incidents with remediation hooks for operations teams.',
-    stack: ['Node.js', 'Grafana', 'Prometheus', 'APIs', 'TypeScript'],
-    github: 'https://github.com/aio2404/devops-monitoring-dashboard',
+      'Automated voice agent that handles inbound calls, qualifies leads, answers FAQ and routes to the right team — built with Vapi and n8n.',
+    stack: ['Vapi', 'n8n', 'OpenAI', 'Webhooks', 'CRM'],
+    github: '',
     demo: '',
-    slug: 'devops-monitoring-dashboard',
+    slug: 'voice-ai-call-agent',
     metrics: [
-      { label: 'Mean time to resolve', value: '−50%' },
-      { label: 'Alert noise reduction', value: '−60%' },
-      { label: 'Services monitored', value: '12+' },
+      { label: 'Calls handled', value: '24/7' },
+      { label: 'Qualification rate', value: '80%+' },
+      { label: 'Human escalation', value: '-60%' },
     ],
     highlights: [
-      'Unified Grafana + Prometheus stack',
-      'Custom alert routing and escalation rules',
-      'Automated remediation hooks',
-      'Single-pane ops view across all environments',
+      'Natural language call handling',
+      'Lead qualification workflow',
+      'CRM auto-update after call',
+      'Multilingual (EN/FR)',
     ],
   },
   {
-    title: 'Automation API connected to Slack, Notion, OpenAI',
+    title: 'Domaine Berger des Vignes — production website',
     description:
-      'Middleware API orchestrating cross-tool flows to improve coordination between product and technical teams.',
-    stack: ['TypeScript', 'Node.js', 'Slack API', 'Notion API', 'OpenAI'],
-    github: 'https://github.com/aio2404/integration-workflow-api',
-    demo: '',
-    slug: 'automation-api-slack-notion',
-    metrics: [
-      { label: 'Tools connected', value: '5+' },
-      { label: 'Manual sync tasks eliminated', value: '90%' },
-      { label: 'API response time', value: '<200 ms' },
-    ],
-    highlights: [
-      'Slack → Notion bidirectional sync',
-      'OpenAI-powered message summarization',
-      'Webhook-based event routing',
-      'Rate-limited, logged, and observable',
-    ],
-  },
-  {
-    title: 'Domaine Berger des Vignes website',
-    description:
-      'Technical ownership and operationalization of a production site with SEO, stability and publishing workflow considerations.',
-    stack: ['Web platform', 'Cloud hosting', 'Observability', 'SEO', 'Performance'],
+      'Full ownership of a production website: deployment, performance optimization, SEO, observability and editorial workflow.',
+    stack: ['Web platform', 'Cloud hosting', 'SEO', 'Observability', 'Performance'],
     github: 'https://github.com/aio2404/domainebergerdesvignes',
     demo: 'https://www.domainebergerdesvignes.com',
     slug: 'domaine-berger-des-vignes',
     metrics: [
-      { label: 'PageSpeed score', value: '95+' },
-      { label: 'Core Web Vitals', value: 'All green' },
+      { label: 'PageSpeed', value: '95+' },
       { label: 'Uptime', value: '99.9%' },
+      { label: 'Core Web Vitals', value: 'All green' },
     ],
     highlights: [
-      'Performance-optimized production deployment',
-      'Structured SEO and metadata setup',
-      'Observability and uptime monitoring',
-      'Sustainable editorial publishing workflow',
+      'Production-grade deployment',
+      'Structured SEO and metadata',
+      'Uptime monitoring',
+      'Sustainable publishing workflow',
     ],
   },
   {
-    title: 'Infrastructure as Code with Terraform and Helm',
+    title: 'Client DevOps missions (confidential)',
     description:
-      'Reproducible multi-environment infrastructure with reusable templates, secure state handling, and standards.',
-    stack: ['Terraform', 'Helm', 'Terragrunt', 'Vault', 'Modules'],
-    github: 'https://github.com/aio2404/terraform-helm-foundation',
+      'Multiple long-term DevOps missions in banking and e-commerce: CI/CD modernization, Kubernetes migrations, infrastructure as code, platform hardening. Projects are confidential.',
+    stack: ['Kubernetes', 'Terraform', 'Docker', 'Azure', 'Jenkins', 'Python'],
+    github: '',
     demo: '',
-    slug: 'terraform-helm-infrastructure',
+    slug: 'client-devops-missions',
     metrics: [
-      { label: 'Infra provisioning time', value: '−75%' },
-      { label: 'Environments managed', value: '4' },
-      { label: 'Manual provisioning steps', value: '0' },
+      { label: 'Clients', value: '8+' },
+      { label: 'Environments migrated', value: '15+' },
+      { label: 'Deploy time', value: '-60% avg' },
     ],
     highlights: [
-      'Reusable Terraform module library',
-      'Terragrunt multi-env orchestration',
-      'Vault-integrated secret management',
-      'GitOps-ready Helm chart structure',
+      'Kubernetes cluster setup and migration',
+      'CI/CD pipeline design and implementation',
+      'IaC with Terraform and Helm',
+      'Platform hardening and monitoring',
+    ],
+  },
+  {
+    title: 'This portfolio — live AI demo',
+    description:
+      'This very portfolio is a technical demo: n8n-powered chatbot, Vapi voice agent, live n8n workflow demo, project detail pages with metrics.',
+    stack: ['Next.js', 'n8n', 'Vapi', 'TypeScript', 'AWS Amplify'],
+    github: 'https://github.com/aio2404/portfolio',
+    demo: '',
+    slug: 'this-portfolio',
+    metrics: [
+      { label: 'Sections', value: '8' },
+      { label: 'AI integrations', value: '2' },
+      { label: 'Deploy auto', value: 'yes' },
+    ],
+    highlights: [
+      'n8n + GPT-4o chatbot',
+      'Vapi voice agent (EN/FR)',
+      'Live workflow demo',
+      'Automated CI/CD deploy',
     ],
   },
 ];
 
 const frProjects: Project[] = [
   {
-    title: "Agent IA n8n pour traitement automatique d'emails",
+    title: "Workflows n8n d'automatisation réseaux sociaux",
     description:
-      'Flux IA qui reçoit des emails entrants, classe la priorité, extrait les actions à mener et génère des tickets selon des règles métiers.',
-    stack: ['n8n', 'OpenAI', 'Webhook', 'Postgres', 'Docker'],
-    github: 'https://github.com/aio2404/agent-email-ia',
+      "Templates n8n prêts à déployer pour automatiser la publication de contenu sur YouTube, TikTok, Instagram et X — de la génération IA à la programmation et la diffusion.",
+    stack: ['n8n', 'OpenAI', 'YouTube API', 'TikTok API', 'Instagram API', 'Webhooks'],
+    github: '',
     demo: '',
-    slug: 'ai-email-automation',
+    slug: 'n8n-social-media-automation',
     metrics: [
-      { label: 'Emails traités / jour', value: '200+' },
-      { label: 'Temps de tri manuel économisé', value: '−80 %' },
-      { label: 'Création de ticket', value: '<3 s' },
+      { label: 'Posts publiés / jour', value: '50+' },
+      { label: 'Travail manuel économisé', value: '95 %' },
+      { label: 'Plateformes couvertes', value: '4+' },
     ],
     highlights: [
-      'Classification automatique par priorité via LLM',
-      "Extraction d'actions et génération de tickets structurés",
-      "Stockage Postgres avec piste d'audit complète",
-      'Alerte Slack sur les éléments prioritaires',
+      "Génération de contenu par IA",
+      'Programmation multi-plateforme',
+      'Logique de re-publication automatique',
+      'Gestion des erreurs et relances',
     ],
   },
   {
-    title: 'Pipeline CI/CD complet pour microservices',
+    title: "Génération de rapports IA automatisée",
     description:
-      "Automatisation du build, de l'intégration et du déploiement de microservices sur Kubernetes, Docker et Azure.",
-    stack: ['Kubernetes', 'Docker', 'Azure', 'Jenkins', 'CI/CD'],
-    github: 'https://github.com/aio2404/microservices-cicd',
+      "Pipeline de reporting automatisé qui collecte des données depuis plusieurs sources, les traite avec un LLM et génère des rapports formatés livrés par email ou Slack.",
+    stack: ['n8n', 'OpenAI', 'PostgreSQL', 'APIs', 'Slack'],
+    github: '',
     demo: '',
-    slug: 'cicd-microservices',
+    slug: 'ai-report-generation',
     metrics: [
-      { label: 'Temps de déploiement', value: '−65 %' },
-      { label: 'Échecs de build', value: '−70 %' },
-      { label: 'Environnements couverts', value: '3' },
+      { label: 'Rapports / semaine', value: '20+' },
+      { label: 'Temps de génération', value: '<2 min' },
+      { label: 'Effort manuel', value: '0' },
     ],
     highlights: [
-      'Pipeline build / test / déploiement complet',
-      'Support multi-environnement (dev / staging / prod)',
-      'Stratégie de rolling update Kubernetes',
-      'Intégration Azure Container Registry',
+      "Agrégation de données multi-sources",
+      "Analyse et mise en forme par LLM",
+      "Livraison automatique par email et Slack",
+      "Déclenchement planifié ou événementiel",
     ],
   },
   {
-    title: 'Dashboard de monitoring DevOps',
+    title: "Agent vocal IA",
     description:
-      'Vue consolidée des alertes, latence, santé applicative et incidents avec automatisation de traitements.',
-    stack: ['Node.js', 'Grafana', 'Prometheus', 'APIs', 'TypeScript'],
-    github: 'https://github.com/aio2404/devops-monitoring-dashboard',
+      "Agent vocal automatisé qui gère les appels entrants, qualifie les prospects, répond aux FAQ et oriente vers la bonne équipe — construit avec Vapi et n8n.",
+    stack: ['Vapi', 'n8n', 'OpenAI', 'Webhooks', 'CRM'],
+    github: '',
     demo: '',
-    slug: 'devops-monitoring-dashboard',
+    slug: 'voice-ai-call-agent',
     metrics: [
-      { label: 'Temps moyen de résolution', value: '−50 %' },
-      { label: "Réduction du bruit d'alertes", value: '−60 %' },
-      { label: 'Services supervisés', value: '12+' },
+      { label: 'Appels traités', value: '24/7' },
+      { label: 'Taux de qualification', value: '80 %+' },
+      { label: 'Escalades humaines', value: '-60 %' },
     ],
     highlights: [
-      'Stack Grafana + Prometheus unifiée',
-      "Routage d'alertes et escalade personnalisés",
-      'Hooks de remédiation automatisés',
-      'Vue ops consolidée sur tous les environnements',
+      "Gestion des appels en langage naturel",
+      "Workflow de qualification de leads",
+      "Mise à jour CRM automatique après appel",
+      "Multilingue (EN/FR)",
     ],
   },
   {
-    title: "API d'automatisation connectée à Slack, Notion, OpenAI",
+    title: "Domaine Berger des Vignes — site en production",
     description:
-      'API middleware déclenchant et corrélant des flux cross-outils pour améliorer la coordination produit/technique.',
-    stack: ['TypeScript', 'Node.js', 'Slack API', 'Notion API', 'OpenAI'],
-    github: 'https://github.com/aio2404/integration-workflow-api',
-    demo: '',
-    slug: 'automation-api-slack-notion',
-    metrics: [
-      { label: 'Outils connectés', value: '5+' },
-      { label: 'Synchronisations manuelles éliminées', value: '90 %' },
-      { label: 'Temps de réponse API', value: '<200 ms' },
-    ],
-    highlights: [
-      'Synchronisation bidirectionnelle Slack ↔ Notion',
-      'Résumé de messages via OpenAI',
-      "Routage d'événements par webhook",
-      'API limitée, journalisée et observable',
-    ],
-  },
-  {
-    title: 'Site Domaine Berger des Vignes',
-    description:
-      "Conception et industrialisation d'un site vitrine orienté production avec visibilité web, performance et maintenance durable.",
-    stack: ['Site web', 'Cloud', 'Monitoring', 'SEO', 'Gestion éditoriale'],
+      "Ownership complet d'un site en production : déploiement, optimisation des performances, SEO, observabilité et workflow éditorial.",
+    stack: ['Web platform', 'Cloud hosting', 'SEO', 'Observability', 'Performance'],
     github: 'https://github.com/aio2404/domainebergerdesvignes',
     demo: 'https://www.domainebergerdesvignes.com',
     slug: 'domaine-berger-des-vignes',
     metrics: [
-      { label: 'Score PageSpeed', value: '95+' },
-      { label: 'Core Web Vitals', value: 'Tous verts' },
+      { label: 'PageSpeed', value: '95+' },
       { label: 'Disponibilité', value: '99,9 %' },
+      { label: 'Core Web Vitals', value: 'Tous verts' },
     ],
     highlights: [
-      'Déploiement production optimisé pour la performance',
-      'SEO structuré et gestion des métadonnées',
-      'Monitoring et suivi de disponibilité',
-      'Workflow éditorial pérenne',
+      "Déploiement de niveau production",
+      "SEO structuré et métadonnées",
+      "Monitoring de disponibilité",
+      "Workflow éditorial pérenne",
     ],
   },
   {
-    title: 'Infrastructure as Code avec Terraform et Helm',
+    title: "Missions DevOps clients (confidentielles)",
     description:
-      'Déploiement reproductible multi-environnements avec modules réutilisables, state sécurisé et conventions claires.',
-    stack: ['Terraform', 'Helm', 'Terragrunt', 'Vault', 'Modules'],
-    github: 'https://github.com/aio2404/terraform-helm-foundation',
+      "Plusieurs missions DevOps longue durée en banque et e-commerce : modernisation CI/CD, migrations Kubernetes, infrastructure as code, durcissement de plateformes. Projets confidentiels.",
+    stack: ['Kubernetes', 'Terraform', 'Docker', 'Azure', 'Jenkins', 'Python'],
+    github: '',
     demo: '',
-    slug: 'terraform-helm-infrastructure',
+    slug: 'client-devops-missions',
     metrics: [
-      { label: 'Temps de provisioning infra', value: '−75 %' },
-      { label: 'Environnements gérés', value: '4' },
-      { label: 'Étapes manuelles', value: '0' },
+      { label: 'Clients', value: '8+' },
+      { label: 'Environnements migrés', value: '15+' },
+      { label: 'Temps de déploiement', value: '-60 % en moy.' },
     ],
     highlights: [
-      'Bibliothèque de modules Terraform réutilisables',
-      'Orchestration multi-env avec Terragrunt',
-      'Gestion des secrets via Vault',
-      'Structure Helm prête pour GitOps',
+      "Mise en place et migration de clusters Kubernetes",
+      "Conception et implémentation de pipelines CI/CD",
+      "IaC avec Terraform et Helm",
+      "Durcissement de plateformes et monitoring",
+    ],
+  },
+  {
+    title: "Ce portfolio — démo IA live",
+    description:
+      "Ce portfolio est lui-même une démo technique : chatbot propulsé par n8n, agent vocal Vapi, démo de workflow n8n en direct, pages de détail de projets avec métriques.",
+    stack: ['Next.js', 'n8n', 'Vapi', 'TypeScript', 'AWS Amplify'],
+    github: 'https://github.com/aio2404/portfolio',
+    demo: '',
+    slug: 'this-portfolio',
+    metrics: [
+      { label: 'Sections', value: '8' },
+      { label: 'Intégrations IA', value: '2' },
+      { label: 'Déploiement auto', value: 'oui' },
+    ],
+    highlights: [
+      "Chatbot n8n + GPT-4o",
+      "Agent vocal Vapi (EN/FR)",
+      "Démo de workflow en direct",
+      "CI/CD automatisé",
     ],
   },
 ];
@@ -405,7 +406,6 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       { id: 'skills', label: 'Skills' },
       { id: 'projects', label: 'Projects' },
       { id: 'demos', label: 'Demos' },
-      { id: 'testimonials', label: 'Reviews' },
       { id: 'method', label: 'Process' },
       { id: 'contact', label: 'Contact' },
     ],
@@ -416,39 +416,39 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       languageSwitcher: 'Français',
     },
     hero: {
-      badge: 'Hybrid technical portfolio',
-      role: 'DevOps Engineer | AI Automation | Developer',
+      badge: 'DevOps · AI Automation · n8n Expert',
+      role: 'DevOps Engineer | AI Automation Specialist | n8n & Make Expert',
       headline:
-        'I build reliable, automated, and intelligent systems that turn operational complexity into a smooth delivery flow.',
+        'I build reliable automation systems and cloud infrastructures — from CI/CD pipelines to AI-powered workflows that scale in production.',
       availability:
-        'Available for DevOps, AI automation, CI/CD, migration, and platform enablement missions.',
+        'Available for any type of project: automation, web development, IT services, cloud infrastructure, AI integrations, DevOps, APIs, and more.',
       ctaProjects: 'See projects',
       ctaContact: 'Contact',
       cards: [
-        { title: 'Stack', detail: 'Docker · Kubernetes · Azure · CI/CD' },
-        { title: 'Focus', detail: 'Reliability, reproducibility, observability' },
-        { title: 'Goal', detail: 'Ship faster with governance and quality' },
+        { title: 'Stack', detail: 'Docker · K8s · AWS · n8n · Make' },
+        { title: 'Focus', detail: 'Automation, reliability, AI integrations' },
+        { title: 'Goal', detail: 'Less manual work, more reliable systems' },
       ],
     },
     about: {
       eyebrow: 'About',
-      title: 'Hybrid profile, practical and outcome-driven',
+      title: 'DevOps engineer turned automation specialist',
       intro:
-        'I am a DevOps engineer with hands-on experience in legacy modernization, CI/CD automation, and team accompaniment, with missions in Aix-en-Provence and Montréal.',
+        'I graduated with an engineering degree in computer science in France, then did a year-long VIE in Canada as a DevOps engineer at a startup. Since then I have been freelancing across banking, e-commerce, and tech sectors.',
       positioning:
-        'I connect product, infra, and data teams around measurable delivery and a reliable operating model.',
+        'I sit at the intersection of DevOps and AI automation — I can build the infrastructure, the CI/CD pipeline, and the n8n workflow that ties everything together.',
       missionStatement:
-        'I build systems that reduce manual work, improve release confidence, and increase team productivity.',
+        'My goal: reduce manual work, make systems more reliable, and use AI and automation to build things that run themselves.',
       ctaMethod: 'See my process',
       valueTitle: 'What I bring',
       valueLead:
         'I bring a calm and structured way of working that aligns architecture, automation, and business impact.',
       valueProps: [
-        'Modernization: migration from legacy/mainframe projects to open-source delivery stacks.',
-        'Reliability: reproducible, auditable, and traceable CI/CD chains.',
-        'Productivity: less repetitive work through scripts, APIs, and low/no-code automations.',
-        'Enablement: training and technical support to help teams adopt new processes quickly.',
-        'AI: controlled use of LLM workflows to assist analysis, orchestration, and quality.',
+        'Cloud & infrastructure: AWS, GCP, Azure, OVH — from IaC with Terraform to Kubernetes production clusters.',
+        'CI/CD: end-to-end pipelines with Jenkins, GitHub Actions, GitLab CI, Docker, Helm.',
+        'AI automation: n8n and Make workflows connected to OpenAI, YouTube, TikTok, Instagram, CRMs, and internal tools.',
+        'Content & data automation: AI-powered report generation, social media publishing, content pipelines.',
+        'Web & APIs: Node.js, React, REST APIs — I build the integration layer when there is no ready-made connector.',
       ],
       emailLabel: 'Direct email',
     },
@@ -456,30 +456,27 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       eyebrow: 'Skills',
       title: 'Core technical skills',
       description:
-        'Capabilities used in real projects to industrialize operations and accelerate delivery.',
+        'Capabilities used in real projects to automate operations, build cloud infrastructure, and connect systems with AI.',
       categories: [
         {
           title: 'DevOps',
-          description: 'Pipeline automation, environment hardening, and continuous deployment.',
-          items: ['Linux', 'PowerShell', 'Docker', 'Kubernetes', 'Terraform', 'Helm', 'Azure', 'OpenShift'],
+          description: 'Pipeline automation, cloud infrastructure, and continuous deployment.',
+          items: ['Docker', 'Kubernetes', 'Terraform', 'Helm', 'Jenkins', 'GitHub Actions', 'GitLab CI', 'AWS', 'GCP', 'Azure', 'OVH', 'Linux', 'Python'],
+        },
+        {
+          title: 'AI automation',
+          description: 'Designing intelligent workflows that connect APIs, LLMs, and business tools.',
+          items: ['n8n', 'Make', 'OpenAI', 'LLM workflows', 'API integrations', 'YouTube API', 'TikTok API', 'Instagram API', 'CRM integrations', 'Webhooks'],
         },
         {
           title: 'Development',
-          description:
-            'Building practical software pieces that integrate cleanly in operational workflows.',
-          items: ['JavaScript', 'TypeScript', 'Python', 'Groovy', 'Angular', 'Flutter', 'APIs'],
+          description: 'Building the integration layer and web services that glue systems together.',
+          items: ['Node.js', 'React', 'TypeScript', 'Python', 'Express', 'REST APIs', 'PostgreSQL', 'MySQL'],
         },
         {
-          title: 'AI / automation',
-          description:
-            'Designing intelligent flow orchestration to shorten time-to-solution.',
-          items: ['OpenAI', 'n8n', 'Workflows', 'AI agents', 'Integrations'],
-        },
-        {
-          title: 'Cloud & tools',
-          description:
-            'Reliable operational foundation with versioning, governance, and monitoring.',
-          items: ['Git', 'Bitbucket', 'Jenkins', 'GitHub Actions', 'MySQL', 'PostgreSQL', 'Elasticsearch'],
+          title: 'Reliability',
+          description: 'Observability, alerting, and hardening so systems run without supervision.',
+          items: ['Monitoring', 'Grafana', 'Prometheus', 'logging', 'system hardening', 'deployment best practices'],
         },
       ],
     },
@@ -487,7 +484,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       eyebrow: 'Projects',
       title: 'Technical projects focused on results',
       description:
-        'Examples of interventions where automation, quality and continuous delivery were prioritized.',
+        'A selection of public and representative work — automation systems, AI workflows, DevOps infrastructure, and production deployments.',
       githubLabel: 'GitHub',
       demoLabel: 'Demo',
       detailsLabel: 'See details',
@@ -507,30 +504,34 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           url: '#contact',
           badge: 'Live · n8n + GPT-4o',
           external: false,
+          hint: 'Click the chat bubble at the bottom right ↘',
         },
         {
           title: 'Voice AI Agent',
           description:
-            'The microphone bubble (bottom-right) connects to a Vapi voice agent — speak directly to ask about my work.',
+            'The microphone bubble (bottom-left) connects to a Vapi voice agent — speak directly to ask about my work.',
           url: '#contact',
           badge: 'Live · Vapi + GPT-4o',
           external: false,
+          hint: 'Click the microphone bubble at the bottom left ↙',
         },
         {
-          title: 'AI Email Automation',
+          title: 'n8n Social Media Automation',
           description:
-            'n8n workflow that classifies, extracts actions and routes incoming emails to structured tickets automatically.',
+            'n8n workflow templates that automate content publishing across YouTube, TikTok, Instagram and X using AI.',
           url: 'https://github.com/aio2404/agent-email-ia',
-          badge: 'GitHub · n8n + OpenAI',
+          badge: 'n8n + OpenAI + Social APIs',
           external: true,
+          hint: 'View on GitHub →',
         },
         {
-          title: 'Domaine Berger des Vignes',
+          title: 'Post to X — live n8n demo',
           description:
-            'Production website with 95+ PageSpeed, full observability setup, and sustainable editorial workflow.',
-          url: 'https://www.domainebergerdesvignes.com',
-          badge: 'Live · Production',
-          external: true,
+            'Type a message, click send — watch the n8n workflow post it to X in real time. Full workflow visible.',
+          url: '#x-demo',
+          badge: 'Live · n8n + X API',
+          external: false,
+          hint: 'Scroll down to the live demo ↓',
         },
       ],
     },
@@ -543,41 +544,41 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
     method: {
       eyebrow: 'Work process',
       title: 'Structured, measurable, and evolving approach',
-      description: 'A clear framework to ship fast without compromising stability.',
+      description: 'A clear framework to build automation systems that actually hold up in production.',
       steps: [
         {
-          title: 'Need analysis',
+          title: 'Discovery & scoping',
           description:
-            'Understand business goals, technical constraints, and define measurable success metrics.',
+            'Understand the workflow, the tools in place, the data flows and define what should be automated first.',
         },
         {
-          title: 'Architecture design',
+          title: 'Architecture',
           description:
-            'Build a resilient and maintainable architecture with milestones and traceability.',
+            'Design a reliable system — choose the right tools (n8n, Make, custom API), map integrations, handle errors.',
         },
         {
-          title: 'Automation',
+          title: 'Build & connect',
           description:
-            'Implement pipelines, scripts, and workflows to reduce manual tasks and improve consistency.',
+            'Build the automation, connect the APIs, write the glue code where needed.',
         },
         {
-          title: 'Deployment',
+          title: 'Test & harden',
           description:
-            'Industrialize production release with rollback strategy, runbooks, and monitoring coverage.',
+            'Test edge cases, add retry logic, alerts and monitoring so the workflow runs without supervision.',
         },
         {
-          title: 'Monitoring and continuous improvement',
+          title: 'Deliver & document',
           description:
-            'Measure, alert, correct, and iterate to optimize reliability and efficiency.',
+            'Deploy, document, and hand over. The system should be understandable and maintainable by anyone.',
         },
       ],
     },
     contact: {
       eyebrow: 'Contact',
-      title: 'Let us discuss your next initiative',
-      description: 'Available for architecture, AI automation, migration, and platform maturity programs.',
+      title: "Let's talk about your project",
+      description: 'Available for any type of project: automation, web development, IT services, cloud infrastructure, AI integrations, DevOps, APIs, scripts — whatever you need built.',
       summary:
-        'I support project scoping, proof of concept, architecture reviews, and DevOps maturity journeys.',
+        'I work on all kinds of projects: websites, automations, internal tools, cloud infrastructure, AI workflows, APIs, and IT services. If it involves tech, I can help.',
       ctaContact: 'Get in touch',
       quickTitle: 'Quick links',
     },
@@ -593,7 +594,6 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       { id: 'skills', label: 'Compétences' },
       { id: 'projects', label: 'Projets' },
       { id: 'demos', label: 'Démos' },
-      { id: 'testimonials', label: 'Avis' },
       { id: 'method', label: 'Méthode' },
       { id: 'contact', label: 'Contact' },
     ],
@@ -604,39 +604,39 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       languageSwitcher: 'English',
     },
     hero: {
-      badge: 'Portfolio technique hybride',
-      role: 'DevOps Engineer | AI Automation | Developer',
+      badge: "DevOps · Automatisation IA · Expert n8n",
+      role: "DevOps Engineer | Spécialiste Automatisation IA | Expert n8n & Make",
       headline:
-        'Je construis des systèmes fiables, automatisés et intelligents pour transformer la complexité opérationnelle en flux de production fluide.',
+        "Je construis des systèmes d'automatisation fiables et des infrastructures cloud — des pipelines CI/CD aux workflows IA qui tiennent en production.",
       availability:
-        'Disponible pour des missions DevOps, automatisation IA, migration, CI/CD et accompagnement technique.',
+        "Disponible pour tous types de projets : automatisation, développement web, services informatiques, infrastructure cloud, intégrations IA, DevOps, APIs et plus encore.",
       ctaProjects: 'Voir mes projets',
       ctaContact: 'Contact',
       cards: [
-        { title: 'Stack', detail: 'Docker · Kubernetes · Azure · CI/CD' },
-        { title: 'Focus', detail: 'Fiabilité, reproductibilité, observabilité' },
-        { title: 'Objectif', detail: 'Accélérer les livraisons avec gouvernance' },
+        { title: 'Stack', detail: 'Docker · K8s · AWS · n8n · Make' },
+        { title: 'Focus', detail: "Automatisation, fiabilité, intégrations IA" },
+        { title: 'Objectif', detail: "Moins de travail manuel, des systèmes plus fiables" },
       ],
     },
     about: {
       eyebrow: 'À propos',
-      title: 'Profil hybride orienté fiabilité et impact',
+      title: "Ingénieure DevOps reconvertie en spécialiste automatisation",
       intro:
-        "Ingénieure DevOps avec expérience terrain en migration technique, automatisation CI/CD et accompagnement d'équipes, entre Aix-en-Provence et Montréal.",
+        "Diplômée d'une école d'ingénieurs en informatique en France, j'ai effectué un VIE d'un an au Canada en tant qu'ingénieure DevOps dans une startup. Depuis, je travaille en freelance dans les secteurs bancaire, e-commerce et tech.",
       positioning:
-        "Mon positionnement : relier produit, infra et data autour d'un modèle de livraison fiable, observable et mesurable.",
+        "Je me situe à l'intersection du DevOps et de l'automatisation IA — je peux construire l'infrastructure, le pipeline CI/CD et le workflow n8n qui relient tout ensemble.",
       missionStatement:
-        'Je mets en place des systèmes qui réduisent le travail manuel, renforcent la qualité de livraison et gagnent du temps opérationnel.',
+        "Mon objectif : réduire le travail manuel, fiabiliser les systèmes et utiliser l'IA et l'automatisation pour construire des choses qui tournent toutes seules.",
       ctaMethod: 'Découvrir ma méthode',
       valueTitle: "Ce que j'apporte",
       valueLead:
-        "J'apporte une approche structurée qui relie architecture, automatisation et résultat business.",
+        "J'apporte une approche structurée qui relie architecture, automatisation et impact business.",
       valueProps: [
-        'Modernisation : passage de projets legacy/mainframe vers des stacks open source.',
-        'Fiabilité : chaînes CI/CD reproductibles, traçables et industrialisées.',
-        'Productivité : réduction des tâches répétitives via scripts, APIs et automatisation low-code/no-code.',
-        'Accompagnement : formation et support technique pour fluidifier les changements.',
-        "IA : usage maîtrisé des flux LLM pour assister l'analyse et l'orchestration.",
+        "Cloud & infrastructure : AWS, GCP, Azure, OVH — de l'IaC avec Terraform aux clusters Kubernetes en production.",
+        "CI/CD : pipelines end-to-end avec Jenkins, GitHub Actions, GitLab CI, Docker, Helm.",
+        "Automatisation IA : workflows n8n et Make connectés à OpenAI, YouTube, TikTok, Instagram, CRMs et outils internes.",
+        "Automatisation de contenu et de données : génération de rapports IA, publication réseaux sociaux, pipelines de contenu.",
+        "Web & APIs : Node.js, React, REST APIs — je construis la couche d'intégration quand il n'existe pas de connecteur prêt à l'emploi.",
       ],
       emailLabel: 'Email direct',
     },
@@ -644,31 +644,27 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       eyebrow: 'Compétences',
       title: 'Compétences techniques',
       description:
-        "Compétences mobilisées sur des cas concrets d'opérations, de fiabilisation et d'accélération produit.",
+        "Compétences mobilisées sur des projets réels pour automatiser les opérations, construire des infrastructures cloud et connecter des systèmes avec l'IA.",
       categories: [
         {
           title: 'DevOps',
-          description:
-            'Automatisation des pipelines, fiabilisation des environnements et livraison continue.',
-          items: ['Linux', 'PowerShell', 'Docker', 'Kubernetes', 'Terraform', 'Helm', 'Azure', 'OpenShift'],
+          description: "Automatisation des pipelines, infrastructure cloud et déploiement continu.",
+          items: ['Docker', 'Kubernetes', 'Terraform', 'Helm', 'Jenkins', 'GitHub Actions', 'GitLab CI', 'AWS', 'GCP', 'Azure', 'OVH', 'Linux', 'Python'],
+        },
+        {
+          title: 'Automatisation IA',
+          description: "Conception de workflows intelligents connectant APIs, LLMs et outils métier.",
+          items: ['n8n', 'Make', 'OpenAI', 'Workflows LLM', 'Intégrations API', 'YouTube API', 'TikTok API', 'Instagram API', 'Intégrations CRM', 'Webhooks'],
         },
         {
           title: 'Développement',
-          description:
-            "Capacité à construire des briques applicatives qui s'intègrent proprement dans les opérations.",
-          items: ['JavaScript', 'TypeScript', 'Python', 'Groovy', 'Angular', 'Flutter', 'APIs'],
+          description: "Construction de la couche d'intégration et des services web qui relient les systèmes.",
+          items: ['Node.js', 'React', 'TypeScript', 'Python', 'Express', 'REST APIs', 'PostgreSQL', 'MySQL'],
         },
         {
-          title: 'IA / automatisation',
-          description:
-            'Conception de flux intelligents pour accélérer la résolution, la prise de décision et la production.',
-          items: ['OpenAI', 'n8n', 'Workflows', 'Agents IA', 'Intégrations'],
-        },
-        {
-          title: 'Cloud / outils',
-          description:
-            "Mise en place d'un socle opérationnel stable avec observabilité, gouvernance et support.",
-          items: ['Git', 'Bitbucket', 'Jenkins', 'GitHub Actions', 'MySQL', 'PostgreSQL', 'Elasticsearch'],
+          title: 'Fiabilité',
+          description: "Observabilité, alerting et durcissement pour que les systèmes tournent sans supervision.",
+          items: ['Monitoring', 'Grafana', 'Prometheus', 'Logging', 'Durcissement système', 'Bonnes pratiques de déploiement'],
         },
       ],
     },
@@ -676,7 +672,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       eyebrow: 'Projets',
       title: 'Projets techniques orientés résultats',
       description:
-        "Exemples d'interventions centrées sur l'automatisation, la qualité opérationnelle et la livraison continue.",
+        "Une sélection de travaux publics et représentatifs — systèmes d'automatisation, workflows IA, infrastructure DevOps et déploiements en production.",
       githubLabel: 'GitHub',
       demoLabel: 'Démo',
       detailsLabel: 'Voir le détail',
@@ -686,7 +682,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       eyebrow: 'Démos live',
       title: 'Voir les automatisations en action',
       description:
-        'Exemples interactifs disponibles maintenant — du chatbot IA aux démos de workflows.',
+        "Exemples interactifs disponibles maintenant — du chatbot IA aux démos de workflows.",
       tryLabel: 'Essayer',
       items: [
         {
@@ -696,30 +692,34 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           url: '#contact',
           badge: 'Live · n8n + GPT-4o',
           external: false,
+          hint: 'Cliquez sur la bulle de chat en bas à droite ↘',
         },
         {
           title: 'Agent Vocal IA',
           description:
-            'La bulle microphone (en bas à droite) connecte à un agent vocal Vapi — parlez directement pour en savoir plus sur mon travail.',
+            "La bulle microphone (en bas à gauche) connecte à un agent vocal Vapi — parlez directement pour en savoir plus sur mon travail.",
           url: '#contact',
           badge: 'Live · Vapi + GPT-4o',
           external: false,
+          hint: 'Cliquez sur la bulle micro en bas à gauche ↙',
         },
         {
-          title: 'Automatisation Emails IA',
+          title: "Automatisation réseaux sociaux n8n",
           description:
-            'Workflow n8n qui classe, extrait les actions et route automatiquement les emails entrants vers des tickets structurés.',
+            "Templates de workflows n8n qui automatisent la publication de contenu sur YouTube, TikTok, Instagram et X en utilisant l'IA.",
           url: 'https://github.com/aio2404/agent-email-ia',
-          badge: 'GitHub · n8n + OpenAI',
+          badge: 'n8n + OpenAI + Social APIs',
           external: true,
+          hint: 'Voir sur GitHub →',
         },
         {
-          title: 'Domaine Berger des Vignes',
+          title: "Poster sur X — démo n8n en direct",
           description:
-            "Site en production avec PageSpeed 95+, stack d'observabilité complète et workflow éditorial pérenne.",
-          url: 'https://www.domainebergerdesvignes.com',
-          badge: 'Live · Production',
-          external: true,
+            "Tapez un message, cliquez sur envoyer — regardez le workflow n8n le publier sur X en temps réel. Workflow complet visible.",
+          url: '#x-demo',
+          badge: 'Live · n8n + X API',
+          external: false,
+          hint: 'Descendez vers la démo live ↓',
         },
       ],
     },
@@ -732,42 +732,41 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
     method: {
       eyebrow: 'Méthode de travail',
       title: 'Approche structurée, mesurable et évolutive',
-      description: 'Un cadre clair pour livrer vite sans sacrifier la stabilité.',
+      description: "Un cadre clair pour construire des systèmes d'automatisation qui tiennent vraiment en production.",
       steps: [
         {
-          title: 'Analyse du besoin',
+          title: 'Découverte & cadrage',
           description:
-            'Comprendre les objectifs business, les contraintes techniques et définir les indicateurs de succès.',
+            "Comprendre le workflow, les outils en place, les flux de données et définir ce qui doit être automatisé en premier.",
         },
         {
-          title: "Conception de l'architecture",
+          title: 'Architecture',
           description:
-            'Dessiner une architecture résiliente, sécurisée et maintenable, validée par étapes.',
+            "Concevoir un système fiable — choisir les bons outils (n8n, Make, API sur mesure), cartographier les intégrations, gérer les erreurs.",
         },
         {
-          title: 'Automatisation',
+          title: 'Construction & connexion',
           description:
-            "Mettre en place pipelines, scripts et workflows pour fiabiliser et fluidifier l'exécution.",
+            "Construire l'automatisation, connecter les APIs, écrire le code de liaison là où c'est nécessaire.",
         },
         {
-          title: 'Déploiement',
+          title: 'Test & durcissement',
           description:
-            'Industrialiser la mise en production avec stratégies de release, observabilité et procédures de rollback.',
+            "Tester les cas limites, ajouter la logique de relance, les alertes et le monitoring pour que le workflow tourne sans supervision.",
         },
         {
-          title: 'Monitoring et amélioration continue',
+          title: 'Livraison & documentation',
           description:
-            'Mesurer, alerter, corriger et itérer pour améliorer qualité, performance et coûts.',
+            "Déployer, documenter et transmettre. Le système doit être compréhensible et maintenable par n'importe qui.",
         },
       ],
     },
     contact: {
       eyebrow: 'Contact',
-      title: 'Discutons de votre prochain projet',
-      description:
-        "Disponible pour des missions d'architecture, d'automatisation IA, de migration et d'industrialisation.",
+      title: "Parlons de votre projet",
+      description: "Disponible pour tous types de projets : automatisation, développement web, services informatiques, infrastructure cloud, intégrations IA, DevOps, APIs, scripts — tout ce qui touche à la tech.",
       summary:
-        "Je réponds aux demandes de cadrage technique, de POC, de revue d'architecture et de montée en maturité DevOps.",
+        "Je travaille sur tous types de projets : sites web, automatisations, outils internes, infrastructure cloud, workflows IA, APIs et services informatiques. Si c'est technique, je peux vous aider.",
       ctaContact: 'Prendre contact',
       quickTitle: 'Renseignements rapides',
     },

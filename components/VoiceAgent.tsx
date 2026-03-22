@@ -134,7 +134,11 @@ export default function VoiceAgent({ lang }: VoiceAgentProps) {
       {/* Connecting label */}
       {status === 'connecting' && (
         <div className="flex items-center gap-2 rounded-full border border-accent-2/25 bg-white/80 px-4 py-2 text-xs text-[#5f3565] shadow-md backdrop-blur-xl">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent-2" />
+          <div className="flex items-center gap-1">
+            <span className="typing-dot" />
+            <span className="typing-dot" />
+            <span className="typing-dot" />
+          </div>
           {t.connecting}
         </div>
       )}

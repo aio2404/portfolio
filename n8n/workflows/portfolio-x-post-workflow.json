@@ -1,0 +1,292 @@
+{
+  "name": "Portfolio — X Post Demo",
+  "nodes": [
+    {
+      "id": "a1b2c3d4-0001-0001-0001-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [220, 300],
+      "webhookId": "portfolio-x-post",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "portfolio-x-post",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "a1b2c3d4-0002-0002-0002-000000000002",
+      "name": "Extract Content",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [440, 300],
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "field-content",
+              "name": "content",
+              "value": "={{ ($json.body || $json).content }}",
+              "type": "string"
+            },
+            {
+              "id": "field-language",
+              "name": "language",
+              "value": "={{ ($json.body || $json).language || 'en' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "a1b2c3d4-0003-0003-0003-000000000003",
+      "name": "AI Content Check",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [660, 300],
+      "parameters": {
+        "resource": "chat",
+        "operation": "message",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are a strict content moderation AI for a professional DevOps and AI automation portfolio account on X (Twitter).\n\nYour task: decide if the submitted message is appropriate to publish on this professional account.\n\nAPPROVE only if the message:\n- Is related to technology, DevOps, software engineering, AI, automation, cloud, programming, or professional career topics\n- Is professional, respectful, and constructive\n- Is written in English or French\n- Does not exceed 280 characters\n\nREJECT if the message contains ANY of the following:\n- Insults, profanity, or aggressive/offensive language\n- Political opinions, partisan content, or electoral topics\n- Religious content, beliefs, or opinions\n- Hate speech, discrimination, or prejudice\n- Spam, scam, phishing, or misleading content\n- Personal attacks or harassment\n- Off-topic personal content (food, weather, personal life, etc.)\n- Promotional content for third-party products unrelated to tech\n\nRespond with ONLY valid JSON (no markdown, no code block, no explanation):\n{\"approved\": true, \"reason\": \"Short reason\"}\nor\n{\"approved\": false, \"reason\": \"Short reason explaining what is wrong\"}"
+            },
+            {
+              "role": "user",
+              "content": "={{ $json.content }}"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-0004-0004-0004-000000000004",
+      "name": "Parse AI Decision",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 300],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const items = [];\n\nfor (const item of $input.all()) {\n  // The OpenAI node returns the content in message.content\n  const raw = item.json?.output || item.json?.message?.content || item.json?.choices?.[0]?.message?.content || '{}';\n  \n  let parsed;\n  try {\n    // Strip possible markdown code fences\n    const cleaned = raw.replace(/```json\\n?/g, '').replace(/```\\n?/g, '').trim();\n    parsed = JSON.parse(cleaned);\n  } catch (e) {\n    // If parse fails, default to rejected for safety\n    parsed = { approved: false, reason: 'AI response could not be parsed — rejected for safety.' };\n  }\n  \n  items.push({\n    json: {\n      approved: parsed.approved === true,\n      reason: parsed.reason || '',\n      // Pass original content forward\n      content: $('Extract Content').item.json.content,\n      language: $('Extract Content').item.json.language,\n    }\n  });\n}\n\nreturn items;"
+      }
+    },
+    {
+      "id": "a1b2c3d4-0005-0005-0005-000000000005",
+      "name": "Content Approved?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1100, 300],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-approved",
+              "leftValue": "={{ $json.approved }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "a1b2c3d4-0006-0006-0006-000000000006",
+      "name": "Post to X",
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 2,
+      "position": [1320, 200],
+      "parameters": {
+        "text": "={{ $json.content }}",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "a1b2c3d4-0007-0007-0007-000000000007",
+      "name": "Build Tweet URL",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1540, 200],
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "field-success",
+              "name": "success",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "field-url",
+              "name": "url",
+              "value": "=https://x.com/i/web/status/{{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "field-tweet-id",
+              "name": "tweet_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "a1b2c3d4-0008-0008-0008-000000000008",
+      "name": "Respond — Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1760, 200],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"url\": $json.url, \"tweet_id\": $json.tweet_id } }}",
+        "options": {
+          "responseCode": 200
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-0009-0009-0009-000000000009",
+      "name": "Respond — Rejected",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1320, 420],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"error\": \"Content rejected: \" + $json.reason } }}",
+        "options": {
+          "responseCode": 422
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Content": {
+      "main": [
+        [
+          {
+            "node": "AI Content Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Content Check": {
+      "main": [
+        [
+          {
+            "node": "Parse AI Decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI Decision": {
+      "main": [
+        [
+          {
+            "node": "Content Approved?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content Approved?": {
+      "main": [
+        [
+          {
+            "node": "Post to X",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond — Rejected",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to X": {
+      "main": [
+        [
+          {
+            "node": "Build Tweet URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Tweet URL": {
+      "main": [
+        [
+          {
+            "node": "Respond — Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "pinData": {},
+  "versionId": "portfolio-x-post-v1",
+  "triggerCount": 0,
+  "tags": []
+}

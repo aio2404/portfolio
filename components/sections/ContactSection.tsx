@@ -61,18 +61,37 @@ export default function ContactSection({ lang }: ContactSectionProps) {
         </div>
         <aside className="surface-panel premium-card p-5">
           <p className="text-sm text-[#69436a]">{content.quickTitle}</p>
-          <ul className="mt-4 space-y-3 text-sm text-[#4f2d57]">
-            <li className="flex items-center gap-2">
-              <Mail size={16} className="text-accent-3" />
-              {profile.email}
+          <ul className="mt-4 space-y-3 text-sm">
+            <li>
+              <a
+                href={`mailto:${profile.email}`}
+                className="flex items-center gap-2 text-[#4f2d57] transition hover:text-accent-2"
+              >
+                <Mail size={16} className="flex-shrink-0 text-accent-3" />
+                <span className="break-all">{profile.email}</span>
+              </a>
             </li>
-            <li className="flex items-center gap-2">
-              <Github size={16} className="text-accent-3" />
-              {profile.github}
+            <li>
+              <a
+                href={profile.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-[#4f2d57] transition hover:text-accent-2"
+              >
+                <Github size={16} className="flex-shrink-0 text-accent-3" />
+                <span className="break-all">{profile.github}</span>
+              </a>
             </li>
-            <li className="flex items-center gap-2">
-              <Linkedin size={16} className="text-accent-3" />
-              {profile.linkedin}
+            <li>
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-[#4f2d57] transition hover:text-accent-2"
+              >
+                <Linkedin size={16} className="flex-shrink-0 text-accent-3" />
+                <span className="break-all">{profile.linkedin}</span>
+              </a>
             </li>
           </ul>
         </aside>
