@@ -171,6 +171,16 @@ export default function ChatbotSection({ lang }: ChatbotSectionProps) {
                 <p className="mt-1 text-[#4b2f58]">{message.content}</p>
               </div>
             ))}
+            {isLoading && (
+              <div className="rounded-xl border border-accent-2/25 bg-accent-1/20 px-3 py-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-[#8f5b8b]">ALexOps</p>
+                <div className="mt-2 flex items-center gap-1.5">
+                  <span className="typing-dot" />
+                  <span className="typing-dot" />
+                  <span className="typing-dot" />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="mt-3 flex flex-wrap gap-2">
