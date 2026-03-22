@@ -1,0 +1,489 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  status: 'ok',\n  source: 'agent',\n  answer: $json.output || $json.finalAnswer || $json.choices?.[0]?.message?.content || $json.text,\n  language: $('Normalize Input').item.json.language || 'en'\n}\n",
+        "options": {}
+      },
+      "name": "Agent Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1712,
+        1168
+      ],
+      "id": "f5c81926-ec57-4caf-8584-2a11aa38c724"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {
+          "maxTokens": 700,
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1232,
+        1312
+      ],
+      "id": "16f67509-24f9-4d70-b392-51e2361f7c45",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "DoYHkp56ACIqmAdI",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{$json.message}}",
+        "options": {
+          "systemMessage": "={{($json.systemPrompt || 'You are a portfolio assistant. Answer concisely and helpfully.') + '\\n\\nProfile data:\\n' + ($json.profileContext || '')}}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1280,
+        1152
+      ],
+      "id": "3723ac28-3cad-47a5-b6b2-774c6cd9d8c4",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.type}}",
+              "operation": "equal",
+              "value2": "agent"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Route: Agent",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        976,
+        1168
+      ],
+      "id": "14522941-1fe2-41c8-a297-3bfcad2fc37d"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'ok', source: 'voice', action: 'received' } }}",
+        "options": {}
+      },
+      "name": "Voice Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1952,
+        1568
+      ],
+      "id": "b207fe6b-584c-4355-bbef-60f87c8518f5"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "type",
+              "value": "={{$json.type || 'voice'}}"
+            },
+            {
+              "name": "name",
+              "value": "={{$json.name || 'Lead Voice'}}"
+            },
+            {
+              "name": "phone",
+              "value": "={{$json.phone || ''}}"
+            },
+            {
+              "name": "message",
+              "value": "={{$json.message || 'Appel reçu'}}"
+            },
+            {
+              "name": "source",
+              "value": "={{$json.source || 'voice-provider'}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Normalize Voice",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        1552
+      ],
+      "id": "5f450cfc-31c0-4450-a73f-6ad653fb891a"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'error', message: 'Unknown request type. Expected: contact | agent | voice' } }}",
+        "options": {}
+      },
+      "name": "Unknown Route",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1568,
+        1696
+      ],
+      "id": "2760d540-8066-4999-be45-f3a29e3a1a03"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'ok', source: 'contact' } }}",
+        "options": {}
+      },
+      "name": "Contact Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        912
+      ],
+      "id": "f1c7af93-a669-47f4-a3d3-48e6c680182b"
+    },
+    {
+      "parameters": {
+        "text": "={{\"*🔔 Nouveau lead portfolio*\\n*Nom :* \" + ($json.name || 'N/A') + \"\\n*Email :* \" + ($json.email || 'N/A') + \"\\n*Source :* \" + ($json.source || 'N/A') + \"\\n*Message :* \" + ($json.message || '')}}",
+        "otherOptions": {}
+      },
+      "name": "Notify Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1392,
+        912
+      ],
+      "id": "8d496413-4a29-4803-8938-3ee512b2d5b8",
+      "webhookId": "970a905a-3530-49ae-95c7-1ec28cf2dab3"
+    },
+    {
+      "parameters": {
+        "pageId": {
+          "__rl": true,
+          "mode": "url",
+          "value": ""
+        },
+        "title": "={{$json.name || 'Demande portfolio'}}",
+        "options": {}
+      },
+      "name": "Create Notion Lead",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [
+        1232,
+        912
+      ],
+      "id": "157b7fe2-8dac-4d3b-9631-31fab0f45c6f"
+    },
+    {
+      "parameters": {
+        "fromEmail": "contact.alexops@proton.me",
+        "toEmail": "={{$json.email}}",
+        "subject": "Nouvelle demande de contact depuis le portfolio",
+        "text": "={{'Nom: ' + ($json.name || '') + '\\nEmail: ' + ($json.email || '') + '\\nSource: ' + ($json.source || '') + '\\nMessage:\\n' + ($json.message || '')}}",
+        "options": {}
+      },
+      "name": "Send Thank You Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [
+        1072,
+        912
+      ],
+      "id": "656a4cf0-7678-4523-bd80-671b49061700",
+      "webhookId": "7bb61174-218d-457a-bf82-4333e2a0c5ee",
+      "credentials": {
+        "smtp": {
+          "id": "wCPQjcLkVAXmYIaq",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.type}}",
+              "operation": "equal",
+              "value2": "contact"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Route: Contact",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        720,
+        992
+      ],
+      "id": "85b2d302-a4fd-41d0-8a52-0efc5e1ed8b9"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "type",
+              "value": "={{($json.body || $json).type || 'contact'}}"
+            },
+            {
+              "name": "name",
+              "value": "={{($json.body || $json).name || ''}}"
+            },
+            {
+              "name": "email",
+              "value": "={{($json.body || $json).email || ''}}"
+            },
+            {
+              "name": "message",
+              "value": "={{($json.body || $json).message || ($json.body || $json).question || ''}}"
+            },
+            {
+              "name": "source",
+              "value": "={{($json.body || $json).source || 'portfolio'}}"
+            },
+            {
+              "name": "language",
+              "value": "={{($json.body || $json).language || 'en'}}"
+            },
+            {
+              "name": "systemPrompt",
+              "value": "={{($json.body || $json).systemPrompt || ''}}"
+            },
+            {
+              "name": "profileContext",
+              "value": "={{($json.body || $json).profileContext || ''}}"
+            },
+            {
+              "name": "receivedAt",
+              "value": "={{new Date().toISOString()}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Normalize Input",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        496,
+        992
+      ],
+      "id": "df04db56-296e-403a-86a7-a7e20554f295"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.type}}",
+              "operation": "equal",
+              "value2": "voice"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Route: Voice",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1328,
+        1600
+      ],
+      "id": "8ef60f8b-2261-4e8c-bfe4-9e19153cc4ca"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "portfolio-contact",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        272,
+        992
+      ],
+      "id": "330cfebc-03e7-43a6-a123-2b0ebeba3ddd",
+      "webhookId": "portfolio-contact-webhook"
+    }
+  ],
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Agent Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route: Agent": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Route: Voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Voice": {
+      "main": [
+        [
+          {
+            "node": "Voice Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Slack": {
+      "main": [
+        [
+          {
+            "node": "Contact Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Notion Lead": {
+      "main": [
+        [
+          {
+            "node": "Notify Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Thank You Email": {
+      "main": [
+        [
+          {
+            "node": "Create Notion Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route: Contact": {
+      "main": [
+        [
+          {
+            "node": "Send Thank You Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Route: Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Input": {
+      "main": [
+        [
+          {
+            "node": "Route: Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route: Voice": {
+      "main": [
+        [
+          {
+            "node": "Normalize Voice",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Unknown Route",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dcacc9e4405b7f82668906ae27d39a118a041202ebcf9cf9d48be994a81e6324"
+  }
+}
