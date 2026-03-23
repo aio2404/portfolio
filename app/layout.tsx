@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Manrope, Playfair_Display, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
@@ -19,10 +19,15 @@ const jetbrains = JetBrains_Mono({
   weight: ['400', '500', '700'],
 });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
-  title: 'ALexOps — DevOps Engineer | AI Automation | Developer',
+  title: 'AlexOps — DevOps Engineer | AI Automation | Developer',
   description:
-    'Professional portfolio of ALexOps, DevOps Engineer, AI automation specialist, CI/CD, cloud, APIs, and no-code/low-code integrations.',
+    'Professional portfolio of AlexOps, DevOps Engineer, AI automation specialist, CI/CD, cloud, APIs, and no-code/low-code integrations.',
   keywords: [
     'DevOps',
     'AI Automation',
@@ -34,7 +39,7 @@ export const metadata: Metadata = {
     'Portfolio',
   ],
   openGraph: {
-    title: 'ALexOps — DevOps Engineer | AI Automation | Developer',
+    title: 'AlexOps — DevOps Engineer | AI Automation | Developer',
     description:
       'Hybrid profile in DevOps, development, AI automation, and platform engineering with a premium, reliable, results-oriented approach.',
     type: 'website',

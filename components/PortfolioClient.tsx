@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Header from '@/components/sections/Header';
 import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
@@ -8,25 +8,38 @@ import SkillsSection from '@/components/sections/SkillsSection';
 import ProjectsSection from '@/components/sections/ProjectsSection';
 import LiveDemosSection from '@/components/sections/LiveDemosSection';
 import XPostDemoSection from '@/components/sections/XPostDemoSection';
+import TerminalSection from '@/components/sections/TerminalSection';
 import MethodSection from '@/components/sections/MethodSection';
 import ContactSection from '@/components/sections/ContactSection';
 import Footer from '@/components/sections/Footer';
 import ChatbotSection from '@/components/ChatbotSection';
+import IntroLoader from '@/components/IntroLoader';
 import dynamic from 'next/dynamic';
+import { Language } from '@/data/portfolioData';
 
 const VoiceAgent = dynamic(() => import('@/components/VoiceAgent'), { ssr: false });
-import { Language } from '@/data/portfolioData';
 
 export default function PortfolioClient() {
   const [lang, setLang] = useState<Language>('en');
+  const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
+    // Force scroll to top on load
+    window.history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+
     const stored = localStorage.getItem('portfolio-language');
     if (stored === 'fr' || stored === 'en') {
       setLang(stored);
     } else {
       const browserLang = navigator.language.toLowerCase();
       setLang(browserLang.startsWith('fr') ? 'fr' : 'en');
+    }
+
+    // Skip intro if already seen this session
+    const seen = sessionStorage.getItem('portfolio-intro-seen');
+    if (seen) {
+      setShowIntro(false);
     }
   }, []);
 
@@ -35,12 +48,16 @@ export default function PortfolioClient() {
     document.documentElement.lang = lang;
   }, [lang]);
 
-  const toggleLanguage = () => {
-    setLang((prev) => (prev === 'en' ? 'fr' : 'en'));
-  };
+  const toggleLanguage = () => setLang((prev) => (prev === 'en' ? 'fr' : 'en'));
+
+  const onIntroDone = useCallback(() => {
+    setShowIntro(false);
+    sessionStorage.setItem('portfolio-intro-seen', '1');
+  }, []);
 
   return (
     <div className="relative min-h-screen">
+      {showIntro && <IntroLoader onDone={onIntroDone} />}
       <Header lang={lang} onLanguageChange={toggleLanguage} />
       <HeroSection lang={lang} />
       <AboutSection lang={lang} />
@@ -48,6 +65,7 @@ export default function PortfolioClient() {
       <ProjectsSection lang={lang} />
       <LiveDemosSection lang={lang} />
       <XPostDemoSection lang={lang} />
+      <TerminalSection lang={lang} />
       <MethodSection lang={lang} />
       <ContactSection lang={lang} />
       <Footer lang={lang} />

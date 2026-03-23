@@ -40,7 +40,7 @@ export type LiveDemo = {
 };
 
 export const profile = {
-  name: 'ALexOps',
+  name: 'AlexOps',
   email: 'contact.alexops@proton.me',
   github: 'https://github.com/aio2404',
   linkedin: 'https://www.linkedin.com/in/alexiaberger480',

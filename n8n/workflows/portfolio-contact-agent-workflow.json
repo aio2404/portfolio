@@ -75,7 +75,7 @@
         "fromEmail": "contact.alexops@proton.me",
         "toEmail": "={{$json.email}}",
         "subject": "={{ $json.language === 'fr' ? 'Merci pour votre message !' : 'Thank you for your message!' }}",
-        "text": "={{ $json.language === 'fr' ? 'Bonjour ' + ($json.name || '') + ',\\n\\nMerci pour votre message ! Je l\\'ai bien reçu et reviendrai vers vous très rapidement.\\n\\nCordialement,\\nAlexia — ALexOps\\ncontact.alexops@proton.me' : 'Hello ' + ($json.name || '') + ',\\n\\nThank you for reaching out! I have received your message and will get back to you as soon as possible.\\n\\nBest regards,\\nAlexia — ALexOps\\ncontact.alexops@proton.me' }}",
+        "text": "={{ $json.language === 'fr' ? 'Bonjour ' + ($json.name || '') + ',\\n\\nMerci pour votre message ! Je l\\'ai bien reçu et reviendrai vers vous très rapidement.\\n\\nCordialement,\\nAlexia — AlexOps\\ncontact.alexops@proton.me' : 'Hello ' + ($json.name || '') + ',\\n\\nThank you for reaching out! I have received your message and will get back to you as soon as possible.\\n\\nBest regards,\\nAlexia — AlexOps\\ncontact.alexops@proton.me' }}",
         "options": {}
       },
       "name": "Send Confirmation Email",
