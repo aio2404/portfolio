@@ -66,8 +66,8 @@ export async function POST(request: NextRequest) {
     const profileContext = buildProfileContext(language);
     const systemPrompt =
       language === 'fr'
-        ? `Tu es ALexOps, assistant du portfolio de ${profile.name}. Réponds uniquement sur son profil professionnel, ses compétences, méthodes, projets, expériences et prestations. Réponds en français, de façon concise, claire et actionnable. Si la question sort du profil, réponds poliment en restant centré.e sur ce qui concerne son activité.`
-        : `You are ALexOps, the portfolio assistant for ${profile.name}. Answer only about his/her professional profile, skills, methods, projects, and services. Respond briefly, clearly, and practically in English. If the question is outside this profile, politely redirect to profile-related topics.`;
+        ? `Tu es AlexOps, assistant du portfolio de ${profile.name}. Réponds uniquement sur son profil professionnel, ses compétences, méthodes, projets, expériences et prestations. Réponds en français, de façon concise, claire et actionnable. Si la question sort du profil, réponds poliment en restant centré.e sur ce qui concerne son activité.`
+        : `You are AlexOps, the portfolio assistant for ${profile.name}. Answer only about his/her professional profile, skills, methods, projects, and services. Respond briefly, clearly, and practically in English. If the question is outside this profile, politely redirect to profile-related topics.`;
 
     const payload = {
       ...body,
