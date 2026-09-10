@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, KeyboardEvent } from 'react';
 import { getContent, profile, Language } from '@/data/portfolioData';
+import SectionShell from '@/components/ui/SectionShell';
 
 type OutputLine = {
   text: string;
@@ -15,6 +16,9 @@ type HistoryEntry = {
 };
 
 const PROMPT = `alexops@portfolio:~$`;
+
+const preferredScrollBehavior = (): ScrollBehavior =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 
 function buildCommands(lang: Language) {
   const content = getContent(lang);
@@ -50,8 +54,6 @@ function buildCommands(lang: Language) {
       { text: `  Email     ${profile.email}`, type: 'normal' },
       { text: `  GitHub    ${profile.github}`, type: 'normal' },
       { text: `  LinkedIn  ${profile.linkedin}`, type: 'normal' },
-      { text: '' },
-      { text: '  Engineering degree · 5+ years experience · 8+ clients', type: 'muted' },
     ],
 
     ls: () => [
@@ -102,41 +104,25 @@ function buildCommands(lang: Language) {
     'cat stack.md': () => [
       { text: '# Tech Stack', type: 'cyan', bold: true },
       { text: '' },
-      { text: '  Automation    n8n · Make · Zapier · Webhooks', type: 'normal' },
-      { text: '  AI/ML         OpenAI · Vapi · LangChain · Agents', type: 'normal' },
-      { text: '  Cloud         AWS · GCP · OVH · Azure', type: 'normal' },
-      { text: '  IaC           Terraform · Helm · Ansible', type: 'normal' },
-      { text: '  Containers    Docker · Kubernetes · ECS', type: 'normal' },
-      { text: '  CI/CD         GitHub Actions · Jenkins · GitLab CI', type: 'normal' },
-      { text: '  Dev           Next.js · TypeScript · Python · Node.js', type: 'normal' },
-      { text: '  Monitoring    Prometheus · Grafana · Datadog', type: 'normal' },
+      ...skills.flatMap((category) => [
+        { text: `  ${category.title.padEnd(14)}${category.items.join(' · ')}`, type: 'normal' as const },
+      ]),
     ],
 
     'ping n8n': () => [
-      { text: 'PING n8n.srv1233751.hstgr.cloud', type: 'normal' },
-      { text: '' },
-      { text: '  64 bytes: icmp_seq=1 ttl=64 time=12ms', type: 'green' },
-      { text: '  64 bytes: icmp_seq=2 ttl=64 time=9ms', type: 'green' },
-      { text: '  64 bytes: icmp_seq=3 ttl=64 time=11ms', type: 'green' },
-      { text: '' },
-      { text: '  n8n automation engine: ONLINE ✓', type: 'green', bold: true },
+      { text: '  Runtime status is not probed from this browser demo.', type: 'yellow' },
+      { text: '  Use the live workflow above to observe a configured execution.', type: 'muted' },
     ],
 
-    uptime: () => {
-      const start = new Date('2024-01-01');
-      const now = new Date();
-      const days = Math.floor((now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-      return [
-        { text: `  System up ${days} days`, type: 'green' },
-        { text: '  Load avg: automation, creativity, precision', type: 'normal' },
-        { text: '  Status: available for new projects ✓', type: 'green', bold: true },
-      ];
-    },
+    uptime: () => [
+      { text: '  No synthetic uptime is reported by this portfolio.', type: 'yellow' },
+      { text: '  Availability is stated in the profile, not inferred from telemetry.', type: 'muted' },
+    ],
 
     './contact.sh': () => {
       setTimeout(() => {
         const el = document.getElementById('contact');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        if (el) el.scrollIntoView({ behavior: preferredScrollBehavior() });
       }, 500);
       return [
         { text: '  Launching contact form...', type: 'green' },
@@ -190,14 +176,14 @@ const WELCOME: OutputLine[] = [
 ];
 
 const colorClass: Record<string, string> = {
-  green:  'text-emerald-400',
-  yellow: 'text-yellow-300',
-  cyan:   'text-cyan-400',
-  red:    'text-red-400',
-  muted:  'text-slate-500',
-  white:  'text-white',
-  normal: 'text-slate-300',
-  prompt: 'text-purple-400',
+  green: 'text-signal',
+  yellow: 'text-[#765D19]',
+  cyan: 'text-signal',
+  red: 'text-[#8B2C24]',
+  muted: 'text-ink-tertiary',
+  white: 'text-ink',
+  normal: 'text-ink-secondary',
+  prompt: 'text-signal',
 };
 
 type TerminalSectionProps = { lang: Language };
@@ -209,12 +195,13 @@ export default function TerminalSection({ lang }: TerminalSectionProps) {
   const [input, setInput] = useState('');
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const [histIdx, setHistIdx] = useState(-1);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const logRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const commands = buildCommands(lang);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const log = logRef.current;
+    if (log) log.scrollTo({ top: log.scrollHeight, behavior: preferredScrollBehavior() });
   }, [history]);
 
   const run = (raw: string) => {
@@ -263,44 +250,27 @@ export default function TerminalSection({ lang }: TerminalSectionProps) {
   };
 
   return (
-    <section id="terminal" className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-      <div className="mx-auto max-w-4xl">
-        {/* Header */}
-        <div className="mb-8 text-center">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-accent-2/70">
-            {lang === 'fr' ? 'Explorez' : 'Explore'}
-          </p>
-          <h2 className="font-display text-3xl font-bold text-[#3c1042] sm:text-4xl">
-            {lang === 'fr' ? 'Terminal interactif' : 'Interactive Terminal'}
-          </h2>
-          <p className="mt-3 text-sm text-[#715676]">
-            {lang === 'fr'
-              ? "Explorez le profil comme un vrai dev. Tapez 'help' pour commencer."
-              : "Explore the profile like a real dev. Type 'help' to get started."}
-          </p>
-        </div>
-
-        {/* Terminal window */}
-        <div
-          className="overflow-hidden rounded-xl border border-slate-700/60 bg-[#0d0d14] shadow-2xl shadow-purple-900/20"
-          onClick={() => inputRef.current?.focus()}
-        >
-          {/* Title bar */}
-          <div className="flex items-center gap-2 border-b border-slate-700/50 bg-[#1a1a2e] px-4 py-3">
-            <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-            <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
-            <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-            <span className="ml-3 text-xs text-slate-500">alexops@portfolio: ~</span>
+    <SectionShell
+      id="terminal"
+      eyebrow={lang === 'fr' ? 'Explorer' : 'Explore'}
+      title={lang === 'fr' ? 'Terminal interactif' : 'Interactive terminal'}
+      description={lang === 'fr' ? "Explorez les informations du portfolio. Tapez 'help' pour commencer." : "Explore the portfolio data. Type 'help' to get started."}
+      index={2}
+      label="LOCAL / READ ONLY"
+    >
+      <div className="overflow-hidden border border-line-interactive bg-ground-subtle" onClick={() => inputRef.current?.focus()}>
+          <div className="flex min-h-11 items-center justify-between border-b border-line-interactive px-4 py-2 font-mono text-[11px] uppercase tracking-[0.04em] text-ink-tertiary">
+            <span>alexops@portfolio: ~</span>
+            <span>LOCAL / READ ONLY</span>
           </div>
 
-          {/* Output */}
-          <div className="h-80 overflow-y-auto px-4 py-3 font-mono text-sm sm:h-96">
+          <div ref={logRef} className="h-80 overflow-y-auto px-4 py-4 font-mono text-[13px] sm:h-96" role="log" aria-live="polite">
             {history.map((entry, i) => (
               <div key={i}>
                 {entry.command && (
-                  <div className="flex items-center gap-2 text-purple-400">
+                  <div className="flex items-center gap-2 text-signal">
                     <span className="select-none">{PROMPT}</span>
-                    <span className="text-white">{entry.command}</span>
+                    <span className="text-ink">{entry.command}</span>
                   </div>
                 )}
                 {entry.output.map((line, j) => (
@@ -313,13 +283,13 @@ export default function TerminalSection({ lang }: TerminalSectionProps) {
                 ))}
               </div>
             ))}
-            <div ref={bottomRef} />
           </div>
 
-          {/* Input */}
-          <div className="flex items-center gap-2 border-t border-slate-700/50 bg-[#0d0d14] px-4 py-3 font-mono text-sm">
-            <span className="select-none text-purple-400 whitespace-nowrap">{PROMPT}</span>
+          <div className="flex min-h-12 items-center gap-2 border-t border-line-interactive bg-ground px-4 py-3 font-mono text-[13px]">
+            <span className="select-none whitespace-nowrap text-signal">{PROMPT}</span>
+            <label htmlFor="terminal-command" className="sr-only">{lang === 'fr' ? 'Commande' : 'Command'}</label>
             <input
+              id="terminal-command"
               ref={inputRef}
               type="text"
               value={input}
@@ -329,12 +299,11 @@ export default function TerminalSection({ lang }: TerminalSectionProps) {
               autoCorrect="off"
               autoCapitalize="off"
               spellCheck={false}
-              className="flex-1 bg-transparent text-white caret-purple-400 outline-none placeholder:text-slate-600"
+              className="min-w-0 flex-1 bg-transparent text-ink caret-signal outline-none placeholder:text-ink-tertiary"
               placeholder={lang === 'fr' ? "tapez une commande..." : "type a command..."}
             />
           </div>
-        </div>
       </div>
-    </section>
+    </SectionShell>
   );
 }

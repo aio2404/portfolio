@@ -1,10 +1,17 @@
-import { Code2, ArrowRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import SectionShell from '@/components/ui/SectionShell';
 import { getContent, Language } from '@/data/portfolioData';
 
-type ProjectsSectionProps = {
-  lang: Language;
+type ProjectsSectionProps = { lang: Language };
+
+const categories: Record<string, { en: string; fr: string }> = {
+  'n8n-social-media-automation': { en: 'Automation system', fr: 'Système d’automatisation' },
+  'ai-report-generation': { en: 'Operational reporting', fr: 'Reporting opérationnel' },
+  'voice-ai-call-agent': { en: 'Conversational AI', fr: 'IA conversationnelle' },
+  'domaine-berger-des-vignes': { en: 'Production web platform', fr: 'Plateforme web en production' },
+  'client-devops-missions': { en: 'Platform engineering', fr: 'Ingénierie plateforme' },
+  'this-portfolio': { en: 'Interactive system', fr: 'Système interactif' },
 };
 
 export default function ProjectsSection({ lang }: ProjectsSectionProps) {
@@ -17,79 +24,30 @@ export default function ProjectsSection({ lang }: ProjectsSectionProps) {
       title={content.title}
       description={content.description}
       index={3}
+      label={lang === 'fr' ? 'Systèmes livrés' : 'Shipped systems'}
     >
-      <div className="grid gap-5 lg:grid-cols-2">
-        {content.items.map((project, index) => (
-          <article
-            key={project.title}
-            className="surface-card p-6 premium-card reveal-card transition duration-300 hover:-translate-y-1 hover:border-accent-2/55 hover:bg-accent-1/8"
-            style={{ animationDelay: `${index * 80}ms` }}
-          >
-            <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-accent-2/35 bg-accent-1/12">
-              <Code2 size={18} className="text-accent-3" />
-            </div>
-            <h3 className="text-xl font-semibold text-[#5f3e61]">{project.title}</h3>
-            <p className="mt-3 text-sm text-[#715676]">{project.description}</p>
-
-            {/* Metrics */}
-            {project.metrics && project.metrics.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-3">
-                {project.metrics.map((m) => (
-                  <div
-                    key={m.label}
-                    className="flex flex-col rounded-lg border border-accent-2/20 bg-accent-1/8 px-3 py-2 text-center"
-                  >
-                    <span className="text-sm font-bold text-[#4f245d]">{m.value}</span>
-                    <span className="text-[10px] text-[#715676]">{m.label}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="mt-4 flex flex-wrap gap-2">
-              {project.stack.map((item) => (
-                <span
-                  key={`${project.title}-${item}`}
-                  className="rounded-full border border-accent-1/40 bg-accent-1/10 px-3 py-1 text-xs text-[#4f2e53]"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                href={`/projects/${project.slug}?lang=${lang}`}
-                className="inline-flex items-center gap-2 rounded-full border border-accent-2/35 bg-accent-1/10 px-4 py-2 text-sm text-[#5d3f62] hover:border-accent-2 hover:text-accent-2"
-              >
-                {content.detailsLabel}
-                <ArrowRight size={14} />
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {content.items.map((project) => {
+          const metric = project.metrics?.[0];
+          return (
+            <article key={project.slug}>
+              <Link href={`/projects/${project.slug}?lang=${lang}`} className="project-card group">
+                <div className="flex items-start justify-between gap-6">
+                  <p className="spec-label text-signal">{categories[project.slug]?.[lang] ?? (lang === 'fr' ? 'Système' : 'System')}</p>
+                  <ArrowUpRight size={18} className="project-arrow shrink-0" aria-hidden="true" />
+                </div>
+                <h3 className="subsection-title mt-5">{project.title}</h3>
+                <p className="small-copy mt-4 flex-1">{project.description}</p>
+                {metric ? (
+                  <p className="mt-8 border-t border-line pt-4 font-mono text-[12px] text-ink-secondary">
+                    <span className="mr-3 text-signal">{metric.value}</span>
+                    {metric.label}
+                  </p>
+                ) : null}
               </Link>
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-accent-1/30 px-4 py-2 text-sm text-[#5d3f62] hover:border-accent-1 hover:text-accent-1"
-                >
-                  {content.githubLabel}
-                  <ArrowRight size={14} />
-                </a>
-              )}
-              {project.demo && (
-                <a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-accent-3/45 px-4 py-2 text-sm text-[#5d3f62] hover:border-accent-3 hover:text-accent-3"
-                >
-                  {content.demoLabel}
-                  <ArrowRight size={14} />
-                </a>
-              )}
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
     </SectionShell>
   );

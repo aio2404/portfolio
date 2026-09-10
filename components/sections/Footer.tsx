@@ -1,16 +1,16 @@
 import { getContent, Language, profile } from '@/data/portfolioData';
 
-type FooterProps = {
-  lang: Language;
-};
+type FooterProps = { lang: Language };
 
 export default function Footer({ lang }: FooterProps) {
   const content = getContent(lang).footer;
   return (
-    <footer className="mt-12 border-t border-accent-1/20 bg-gradient-to-r from-bg-0 to-bg-2/80 py-8">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 sm:flex-row sm:px-6 lg:px-8">
-        <p className="text-sm text-[#6f486e]">{profile.name} · {content.tagline}</p>
-        <p className="text-xs text-[#9a7392]">© {new Date().getFullYear()} · {content.customizableText}</p>
+    <footer className="border-t border-line py-8">
+      <div className="spec-container flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+        <p className="mb-0 font-mono text-[12px] uppercase tracking-[0.04em] text-ink-secondary">
+          {profile.name} / {content.tagline}
+        </p>
+        <p className="mb-0 text-xs text-ink-tertiary">© {new Date().getFullYear()} · {content.customizableText}</p>
       </div>
     </footer>
   );

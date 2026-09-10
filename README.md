@@ -1,62 +1,40 @@
-# Portfolio DevOps / AI Automation (Next.js + Tailwind CSS)
+# AlexOps — MESURE Systems Portfolio
 
-## Aperçu
+Portfolio bilingue DevOps et automatisation IA construit avec Next.js, TypeScript et Tailwind CSS. L'interface suit une esthétique de spécification technique : papier chaud, encre sombre, signal vert, composants rectilignes et contenu orienté preuves.
 
-Ce template Next.js App Router fournit un portfolio moderne, sobre et responsive pour un profil hybride :
+## Démarrage
 
-- DevOps
-- Développement
-- IA / automatisation
-- Intégration d’outils et workflows
-- Projets techniques orientés résultats
-
-## Stack
-
-- Next.js (App Router)
-- TypeScript
-- Tailwind CSS
-- Lucide React (icônes)
-
-## Langues
-
-- Anglais par défaut
-- Bascule vers le français via le bouton `Français` / `English` dans le header
-- Persistance du choix langue via le navigateur (`localStorage`)
-
-## Lancement rapide
+Node.js 18.18 ou plus récent est requis. La version locale recommandée est définie dans `.nvmrc`.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Ouvre ensuite `http://localhost:3000`.
+Le site est ensuite disponible sur `http://localhost:3000`.
 
-## Commandes utiles
+## Commandes
 
+- `npm run dev` — serveur de développement
 - `npm run build` — build de production
 - `npm run start` — démarrage en mode production
-- `npm run lint` — vérification lint
+- `npm run lint` — vérification Next.js
 
-## Fichiers principaux
+## Surfaces
 
-- `app/page.tsx` : page principale avec toutes les sections
-- `app/layout.tsx` : metadata SEO + polices + structure globale
-- `app/globals.css` : styles globaux et animations
-- `data/portfolioData.ts` : **données mockées facilement modifiables**
-- `components/sections/*` : composants réutilisables par section
-- `components/ui/SectionShell.tsx` : conteneur réutilisable de section
+- `/` — page d'accueil persuasive, disponible en français et en anglais
+- `/projects/[slug]` — études de cas structurées comme des documents techniques
+- `/lab` — expériences interactives explicitement identifiées
 
-## Personnalisation
+La langue peut être sélectionnée avec `?lang=fr` ou `?lang=en`, puis via le sélecteur de l'interface.
 
-Edite `data/portfolioData.ts` pour changer rapidement :
+## Design et contenu
 
-- Nom / titre
-- Email / GitHub / LinkedIn
-- Texte des sections
-- Compétences et stack projets
-- Étapes de méthode
+- `DESIGN.md` — règles de design lisibles
+- `.impeccable/design-system.json` — tokens et contraintes machine-readable
+- `.impeccable/surfaces/` — briefs par surface
+- `data/portfolioData.ts` — contenu bilingue et données des projets
+- `app/globals.css` — tokens et styles globaux
+- `components/visual/` — signature Three.js et fallback SVG
 
-## SEO minimal
-
-Les champs `title`, `description` et `openGraph` sont déjà configurés dans `app/layout.tsx`.
+Les polices Geist sont auto-hébergées par le package `geist`. La scène Three.js est chargée côté client après hydratation, plafonnée à trois draw calls et remplacée par un SVG statique si WebGL ou le mouvement ne conviennent pas à l'appareil.

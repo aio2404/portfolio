@@ -1,11 +1,9 @@
 import Link from 'next/link';
-import { CheckCircle2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import SectionShell from '@/components/ui/SectionShell';
 import { getContent, profile, Language } from '@/data/portfolioData';
 
-type AboutSectionProps = {
-  lang: Language;
-};
+type AboutSectionProps = { lang: Language };
 
 export default function AboutSection({ lang }: AboutSectionProps) {
   const content = getContent(lang).about;
@@ -17,37 +15,41 @@ export default function AboutSection({ lang }: AboutSectionProps) {
       title={content.title}
       description={content.positioning}
       index={1}
+      label={lang === 'fr' ? 'Profil' : 'Profile'}
     >
-      <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
-        <article className="surface-panel premium-card reveal-card p-6 sm:p-8">
-          <p className="text-[#5f3d60]">{content.intro}</p>
-          <p className="mt-5 text-sm text-[#76567b]">{content.missionStatement}</p>
-          <Link
-            href="#method"
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-accent-2/55 bg-accent-1/10 px-4 py-2 text-sm font-medium text-accent-2 transition-all duration-300 hover:border-accent-2 hover:bg-accent-2/15 hover:translate-y-[-2px]"
-          >
+      <div className="grid gap-[var(--layout-gap)] xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
+        <article>
+          <p className="body-copy max-w-[62ch]">{content.intro}</p>
+          <blockquote className="my-8 max-w-[62ch] border-l-2 border-signal pl-5 text-lg font-medium leading-relaxed text-ink">
+            {content.missionStatement}
+          </blockquote>
+          <Link href="#method" className="button-secondary">
             {content.ctaMethod}
+            <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </article>
 
-        <div className="surface-card premium-card reveal-card p-6 sm:p-8">
-          <h3 className="text-lg font-medium text-[#5f3e61]">{content.valueTitle}</h3>
-          <p className="mt-3 text-sm text-[#786579]">{content.valueLead}</p>
-          <ul className="mt-5 space-y-3">
-            {content.valueProps.map((item) => (
-              <li key={item} className="flex gap-3 text-sm text-[#5f3e61] reveal-card" style={{ animationDelay: '120ms' }}>
-                <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-accent-2" />
+        <aside aria-labelledby="value-title" className="surface-panel h-full bg-ground-subtle p-6 lg:p-8">
+          <p className="spec-label">CAPABILITIES / 05</p>
+          <h3 id="value-title" className="subsection-title mt-3">
+            {content.valueTitle}
+          </h3>
+          <p className="small-copy mt-3">{content.valueLead}</p>
+          <ol className="mt-6 list-none p-0">
+            {content.valueProps.map((item, index) => (
+              <li key={item} className="grid grid-cols-[36px_1fr] gap-3 border-t border-line py-4 text-sm text-ink-secondary">
+                <span className="font-mono text-[11px] text-signal">{String(index + 1).padStart(2, '0')}</span>
                 <span>{item}</span>
               </li>
             ))}
-          </ul>
-          <p className="mt-6 text-sm text-[#6a4e6d]">
+          </ol>
+          <p className="small-copy mt-5">
             {content.emailLabel}{' '}
-            <a className="text-accent-2 underline underline-offset-4" href={`mailto:${profile.email}`}>
+            <a className="font-medium text-signal underline" href={`mailto:${profile.email}`}>
               {profile.email}
             </a>
           </p>
-        </div>
+        </aside>
       </div>
     </SectionShell>
   );

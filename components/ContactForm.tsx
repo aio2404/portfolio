@@ -1,39 +1,34 @@
-"use client";
+'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useId, useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { Language } from '@/data/portfolioData';
 
-type ContactFormProps = {
-  ctaContact: string;
-  lang: Language;
-};
-
-type SubmissionState = {
-  status: 'idle' | 'sending' | 'success' | 'error';
-  message: string;
-};
+type ContactFormProps = { ctaContact: string; lang: Language };
+type SubmissionState = { status: 'idle' | 'sending' | 'success' | 'error'; message: string };
 
 const copy = {
   en: {
-    namePlaceholder: 'Full name',
-    emailPlaceholder: 'Email address',
-    messagePlaceholder: 'Your message',
-    sending: 'Sending...',
+    name: 'Full name',
+    email: 'Email address',
+    message: 'Project or message',
+    sending: 'Sending…',
     success: 'Thank you, your message has been sent.',
     error: 'Error sending message.',
   },
   fr: {
-    namePlaceholder: 'Nom complet',
-    emailPlaceholder: 'Adresse email',
-    messagePlaceholder: 'Votre message',
-    sending: 'Envoi...',
+    name: 'Nom complet',
+    email: 'Adresse email',
+    message: 'Projet ou message',
+    sending: 'Envoi…',
     success: 'Merci, votre message a bien été envoyé.',
-    error: 'Erreur d\u2019envoi du message.',
+    error: 'Erreur d’envoi du message.',
   },
 };
 
 export default function ContactForm({ ctaContact, lang }: ContactFormProps) {
   const t = copy[lang];
+  const fieldId = useId();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -42,84 +37,46 @@ export default function ContactForm({ ctaContact, lang }: ContactFormProps) {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setState({ status: 'sending', message: '' });
-
     try {
-      const res = await fetch('/api/contact', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          type: 'contact',
-          name,
-          email,
-          message,
-          source: 'portfolio',
-          language: lang,
-        }),
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ type: 'contact', name, email, message, source: 'portfolio', language: lang }),
       });
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => null);
-        const errorMessage =
-          (data && (data.message || data.error)) || t.error;
-        throw new Error(errorMessage);
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null);
+        throw new Error(payload?.message || payload?.error || t.error);
       }
-
       setState({ status: 'success', message: t.success });
       setName('');
       setEmail('');
       setMessage('');
     } catch (error) {
-      setState({
-        status: 'error',
-        message: error instanceof Error ? error.message : t.error,
-      });
+      setState({ status: 'error', message: error instanceof Error ? error.message : t.error });
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-3">
-      <input
-        required
-        value={name}
-        onChange={(event) => setName(event.target.value)}
-        placeholder={t.namePlaceholder}
-        className="rounded-lg border border-[#e3b8d3] bg-white/65 px-4 py-2 text-sm text-[#4f2e53] outline-none transition focus:border-accent-2"
-      />
-      <input
-        required
-        type="email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        placeholder={t.emailPlaceholder}
-        className="rounded-lg border border-[#e3b8d3] bg-white/65 px-4 py-2 text-sm text-[#4f2e53] outline-none transition focus:border-accent-2"
-      />
-      <textarea
-        required
-        rows={4}
-        value={message}
-        onChange={(event) => setMessage(event.target.value)}
-        placeholder={t.messagePlaceholder}
-        className="rounded-lg border border-[#e3b8d3] bg-white/65 px-4 py-2 text-sm text-[#4f2e53] outline-none transition focus:border-accent-2"
-      />
-      <button
-        type="submit"
-        disabled={state.status === 'sending'}
-        className="inline-flex w-fit items-center gap-2 rounded-full border border-accent-2/45 bg-gradient-to-r from-accent-1 to-accent-3 px-5 py-2 text-sm font-semibold text-[#37112f] transition-all hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
-      >
+    <form onSubmit={handleSubmit} className="grid gap-4 md:grid-cols-2">
+      <div>
+        <label htmlFor={`${fieldId}-name`} className="spec-label mb-2 block">{t.name}</label>
+        <input id={`${fieldId}-name`} name="name" autoComplete="name" required value={name} onChange={(event) => setName(event.target.value)} className="field" />
+      </div>
+      <div>
+        <label htmlFor={`${fieldId}-email`} className="spec-label mb-2 block">{t.email}</label>
+        <input id={`${fieldId}-email`} name="email" autoComplete="email" required type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="field" />
+      </div>
+      <div className="md:col-span-2">
+        <label htmlFor={`${fieldId}-message`} className="spec-label mb-2 block">{t.message}</label>
+        <textarea id={`${fieldId}-message`} name="message" required rows={5} value={message} onChange={(event) => setMessage(event.target.value)} className="field resize-y" />
+      </div>
+      <button type="submit" disabled={state.status === 'sending'} className="button-primary w-fit disabled:cursor-not-allowed disabled:opacity-60">
         {state.status === 'sending' ? t.sending : ctaContact}
+        <ArrowRight size={16} aria-hidden="true" />
       </button>
-
-      {state.message ? (
-        <p
-          className={`text-sm ${
-            state.status === 'success' ? 'text-[#2f6f46]' : 'text-[#7d2f43]'
-          }`}
-        >
-          {state.message}
-        </p>
-      ) : null}
+      <p aria-live="polite" className={`mb-0 min-h-6 text-sm md:col-span-2 ${state.status === 'error' ? 'text-[#8B2C24]' : 'text-signal'}`}>
+        {state.message}
+      </p>
     </form>
   );
 }

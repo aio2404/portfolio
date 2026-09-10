@@ -1,15 +1,17 @@
-import Link from 'next/link';
-import { Mail, Github, Linkedin, Send } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 import SectionShell from '@/components/ui/SectionShell';
-import { getContent, profile, Language } from '@/data/portfolioData';
 import ContactForm from '@/components/ContactForm';
+import { getContent, profile, Language } from '@/data/portfolioData';
 
-type ContactSectionProps = {
-  lang: Language;
-};
+type ContactSectionProps = { lang: Language };
 
 export default function ContactSection({ lang }: ContactSectionProps) {
   const content = getContent(lang).contact;
+  const links = [
+    { label: profile.email, href: `mailto:${profile.email}`, icon: Mail },
+    { label: 'GitHub', href: profile.github, icon: Github },
+    { label: 'LinkedIn', href: profile.linkedin, icon: Linkedin },
+  ];
 
   return (
     <SectionShell
@@ -17,82 +19,27 @@ export default function ContactSection({ lang }: ContactSectionProps) {
       eyebrow={content.eyebrow}
       title={content.title}
       description={content.description}
-      index={5}
+      index={6}
+      label={lang === 'fr' ? 'Contact' : 'Contact'}
+      tone="subtle"
     >
-      <div className="surface-card premium-card reveal-card grid gap-4 p-6 sm:p-8 lg:grid-cols-[1.2fr_1fr]">
-        <div>
-          <p className="text-sm text-[#6d476b]">{content.summary}</p>
-          <p className="mt-4 text-sm text-[#5d3f62]">
-            Email :{' '}
-            <a href={`mailto:${profile.email}`} className="text-accent-2 underline underline-offset-4">
-              {profile.email}
-            </a>
-          </p>
-          <div className="mt-6">
-            <ContactForm ctaContact={content.ctaContact} lang={lang} />
-          </div>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="#projects"
-              className="inline-flex items-center gap-2 rounded-full border border-accent-2/35 bg-accent-1/10 px-4 py-2 text-sm text-[#5d3f62] transition hover:border-accent-2 hover:text-accent-2 hover:-translate-y-1"
-            >
-              <Send size={16} />
-              {lang === 'fr' ? 'Voir mes projets' : 'See my projects'}
-            </Link>
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-accent-2/35 bg-accent-1/10 px-4 py-2 text-sm text-[#5d3f62] transition hover:border-accent-2 hover:text-accent-2 hover:-translate-y-1"
-            >
-              <Github size={16} />
-              GitHub
-            </a>
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-accent-2/35 bg-accent-1/10 px-4 py-2 text-sm text-[#5d3f62] transition hover:border-accent-2 hover:text-accent-2 hover:-translate-y-1"
-            >
-              <Linkedin size={16} />
-              LinkedIn
-            </a>
-          </div>
+      <div className="grid gap-[var(--layout-gap)] xl:grid-cols-[minmax(0,1.7fr)_minmax(320px,0.7fr)]">
+        <div className="system-card p-6 lg:p-8">
+          <p className="body-copy mb-8 max-w-[62ch]">{content.summary}</p>
+          <ContactForm ctaContact={content.ctaContact} lang={lang} />
         </div>
-        <aside className="surface-panel premium-card p-5">
-          <p className="text-sm text-[#69436a]">{content.quickTitle}</p>
-          <ul className="mt-4 space-y-3 text-sm">
-            <li>
-              <a
-                href={`mailto:${profile.email}`}
-                className="flex items-center gap-2 text-[#4f2d57] transition hover:text-accent-2"
-              >
-                <Mail size={16} className="flex-shrink-0 text-accent-3" />
-                <span className="break-all">{profile.email}</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href={profile.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-[#4f2d57] transition hover:text-accent-2"
-              >
-                <Github size={16} className="flex-shrink-0 text-accent-3" />
-                <span className="break-all">{profile.github}</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href={profile.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-[#4f2d57] transition hover:text-accent-2"
-              >
-                <Linkedin size={16} className="flex-shrink-0 text-accent-3" />
-                <span className="break-all">{profile.linkedin}</span>
-              </a>
-            </li>
+        <aside className="system-card h-full p-6 lg:p-8" aria-labelledby="quick-links-title">
+          <p className="spec-label">DIRECT CHANNELS / 03</p>
+          <h3 id="quick-links-title" className="subsection-title mt-3">{content.quickTitle}</h3>
+          <ul className="mt-6 list-none border-t border-line p-0">
+            {links.map(({ label, href, icon: Icon }) => (
+              <li key={href} className="border-b border-line">
+                <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener noreferrer' : undefined} className="flex min-h-14 items-center gap-3 text-sm text-ink-secondary no-underline hover:text-signal">
+                  <Icon size={16} aria-hidden="true" />
+                  <span className="break-all">{label}</span>
+                </a>
+              </li>
+            ))}
           </ul>
         </aside>
       </div>

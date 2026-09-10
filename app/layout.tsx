@@ -1,23 +1,7 @@
 import type { Metadata, Viewport } from 'next';
-import { Manrope, Playfair_Display, JetBrains_Mono } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import './globals.css';
-
-const manrope = Manrope({
-  subsets: ['latin'],
-  variable: '--font-sans',
-});
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-display',
-  weight: ['600', '700'],
-});
-
-const jetbrains = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  weight: ['400', '500', '700'],
-});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -25,9 +9,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'AlexOps — DevOps Engineer | AI Automation | Developer',
+  title: 'AlexOps — Reliable systems & measurable automation',
   description:
-    'Professional portfolio of AlexOps, DevOps Engineer, AI automation specialist, CI/CD, cloud, APIs, and no-code/low-code integrations.',
+    'DevOps, cloud and AI automation systems designed for reliable production operations.',
   keywords: [
     'DevOps',
     'AI Automation',
@@ -39,9 +23,9 @@ export const metadata: Metadata = {
     'Portfolio',
   ],
   openGraph: {
-    title: 'AlexOps — DevOps Engineer | AI Automation | Developer',
+    title: 'AlexOps — Reliable systems & measurable automation',
     description:
-      'Hybrid profile in DevOps, development, AI automation, and platform engineering with a premium, reliable, results-oriented approach.',
+      'DevOps, cloud and AI automation systems designed for reliable production operations.',
     type: 'website',
     locale: 'en_US',
   },
@@ -53,8 +37,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${playfair.variable} ${jetbrains.variable}`}>
-      <body className="min-h-screen bg-bg-0 font-sans text-[#3f2347] antialiased">{children}</body>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }

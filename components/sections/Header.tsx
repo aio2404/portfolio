@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { getContent, profile, Language } from '@/data/portfolioData';
 
 type HeaderProps = {
@@ -10,94 +10,106 @@ type HeaderProps = {
   onLanguageChange: () => void;
 };
 
+const visibleIds = ['projects', 'about', 'contact'] as const;
+
 export default function Header({ lang, onLanguageChange }: HeaderProps) {
   const content = getContent(lang);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeId, setActiveId] = useState<string>('');
+  const navItems = visibleIds.map((id) => ({
+    id,
+    label: content.navItems.find((item) => item.id === id)?.label ?? id,
+  }));
+
+  useEffect(() => {
+    const sections = visibleIds
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => Boolean(section));
+    if (!sections.length || !('IntersectionObserver' in window)) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const current = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (current?.target.id) setActiveId(current.target.id);
+      },
+      { rootMargin: '-20% 0px -65% 0px', threshold: [0, 0.1, 0.4] },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-accent-3/50 bg-bg-0/85 shadow-[0_10px_40px_rgba(196,148,177,0.22)] backdrop-blur-xl">
-      <div className="flex h-16 items-center px-4 sm:px-6 lg:px-8">
-        {/* Logo */}
+    <header className="sticky top-0 z-50 h-12 border-b border-line bg-ground">
+      <div className="spec-container flex h-full items-center">
         <Link
           href="#home"
-          className="text-sm font-semibold tracking-[0.16em] text-[#4f245d] drop-shadow-sm"
+          className="inline-flex min-h-11 items-center font-mono text-[12px] font-medium uppercase tracking-[0.08em] text-ink no-underline"
         >
           {profile.name}
         </Link>
 
-        {/* Nav desktop */}
-        <nav aria-label="Navigation principale" className="hidden flex-1 justify-center gap-6 lg:flex">
-          {content.navItems.map((item) => (
-            <Link
-              key={item.id}
-              href={`#${item.id}`}
-              className="text-sm text-[#66446b] transition-colors hover:text-accent-1"
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'} className="ml-auto hidden h-full items-center md:flex">
+          {navItems.map((item) => {
+            const active = activeId === item.id;
+            return (
+              <Link
+                key={item.id}
+                href={`#${item.id}`}
+                aria-current={active ? 'location' : undefined}
+                className={`relative inline-flex h-full min-w-[88px] items-center justify-center px-4 text-sm text-ink-secondary no-underline transition-colors duration-[80ms] hover:text-signal ${
+                  active ? 'text-signal after:absolute after:inset-x-4 after:bottom-0 after:h-0.5 after:bg-signal' : ''
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
-        {/* Actions */}
-        <div className="ml-auto flex items-center gap-2">
-          <a
-            href="#contact"
-            className="hidden items-center gap-2 rounded-full border border-accent-1/55 bg-accent-2/25 px-4 py-2 text-sm font-semibold text-[#4f245d] transition-colors hover:border-accent-1 hover:text-[#2f0f33] sm:inline-flex"
-          >
-            {content.header.contactButton}
-            <ArrowRight size={16} />
-          </a>
-          <button
-            type="button"
-            aria-label="Change language"
-            onClick={onLanguageChange}
-            className="inline-flex items-center rounded-full border border-accent-1/35 bg-accent-3/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-[#4f245d] transition-colors hover:border-accent-2 hover:text-accent-2"
-          >
-            {content.header.languageSwitcher}
-          </button>
-          {/* Hamburger */}
-          <button
-            type="button"
-            aria-label="Toggle menu"
-            onClick={() => setMobileOpen((v) => !v)}
-            className="inline-flex items-center justify-center rounded-full border border-accent-1/35 bg-accent-3/20 p-2 text-[#4f245d] transition-colors hover:border-accent-2 lg:hidden"
-          >
-            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
-        </div>
+        <button
+          type="button"
+          aria-label={lang === 'fr' ? 'Passer en anglais' : 'Switch to French'}
+          onClick={onLanguageChange}
+          className="ml-auto inline-flex min-h-11 min-w-11 items-center justify-center border-x border-line px-3 font-mono text-[11px] uppercase tracking-[0.08em] text-ink-secondary transition-colors duration-[80ms] hover:bg-signal-subtle hover:text-signal md:ml-0"
+        >
+          {lang === 'fr' ? 'EN' : 'FR'}
+        </button>
+
+        <button
+          type="button"
+          aria-label={lang === 'fr' ? 'Menu' : 'Menu'}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => setMobileOpen((open) => !open)}
+          className="inline-flex min-h-11 min-w-11 items-center justify-center border-r border-line text-ink md:hidden"
+        >
+          {mobileOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+        </button>
       </div>
 
-      {/* Mobile menu */}
-      {mobileOpen && (
+      {mobileOpen ? (
         <nav
-          aria-label="Navigation mobile"
-          className="border-t border-accent-3/30 bg-bg-0/95 px-4 py-4 backdrop-blur-xl lg:hidden"
+          id="mobile-navigation"
+          aria-label={lang === 'fr' ? 'Navigation mobile' : 'Mobile navigation'}
+          className="absolute inset-x-0 top-12 border-b border-line bg-ground md:hidden"
         >
-          <ul className="flex flex-col gap-1">
-            {content.navItems.map((item) => (
-              <li key={item.id}>
+          <ul className="spec-container grid list-none py-3">
+            {navItems.map((item) => (
+              <li key={item.id} className="border-b border-line last:border-b-0">
                 <Link
                   href={`#${item.id}`}
                   onClick={() => setMobileOpen(false)}
-                  className="block rounded-lg px-3 py-2.5 text-sm text-[#66446b] transition-colors hover:bg-accent-1/10 hover:text-accent-1"
+                  className="flex min-h-11 items-center px-1 text-sm text-ink-secondary no-underline hover:text-signal"
                 >
                   {item.label}
                 </Link>
               </li>
             ))}
-            <li className="mt-2 pt-2 border-t border-accent-3/30">
-              <a
-                href="#contact"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 rounded-full border border-accent-1/55 bg-accent-2/25 px-4 py-2.5 text-sm font-semibold text-[#4f245d]"
-              >
-                {content.header.contactButton}
-                <ArrowRight size={16} />
-              </a>
-            </li>
           </ul>
         </nav>
-      )}
+      ) : null}
     </header>
   );
 }

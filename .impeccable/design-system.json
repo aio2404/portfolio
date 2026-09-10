@@ -1,0 +1,68 @@
+{
+  "_schema": "impeccable-design 1",
+  "_note": "Implementation-normalized companion to DESIGN.md. Font package metadata reflects the installed official Geist package.",
+  "direction": "MESURE — Systems Specification",
+  "selectedDate": "2026-08-21",
+  "surfaces": {
+    "homepage": { "mode": "persuade", "brief": ".impeccable/surfaces/homepage.md" },
+    "case-study": { "mode": "read", "brief": ".impeccable/surfaces/case-study.md" },
+    "visual-lab": { "mode": "experience", "brief": ".impeccable/surfaces/visual-lab.md", "status": "prototype-exploration" }
+  },
+  "tokens": {
+    "color": {
+      "ground": { "DEFAULT": "#F2F0EB", "subtle": "#EAE8E2" },
+      "text": { "primary": "#1A1917", "secondary": "#5C5A55", "tertiary": "#65635E" },
+      "signal": { "DEFAULT": "#1F4E4A", "hover": "#163A37", "subtle": "#EAF0EF" },
+      "border": { "DEFAULT": "#C8C4BC", "interactive": "#868280" }
+    },
+    "typography": {
+      "font": {
+        "sans": { "family": "Geist, system-ui, -apple-system, sans-serif", "license": "SIL Open Font License 1.1", "loadingMethod": "geist package via next/font/local", "variable": true, "weightRange": [100, 900] },
+        "mono": { "family": "Geist Mono, Courier New, monospace", "license": "SIL Open Font License 1.1", "preload": false }
+      },
+      "scale": {
+        "display": { "size": "clamp(52px, 6.2vw, 96px)", "lineHeight": 1.02, "tracking": "-0.02em", "weight": 600 },
+        "h1": { "size": "36px", "lineHeight": 1.15, "tracking": "-0.01em", "weight": 500 },
+        "h2": { "size": "22px", "lineHeight": 1.2, "tracking": "-0.01em", "weight": 500 },
+        "body": { "size": "16px", "lineHeight": 1.7, "tracking": "0", "weight": 400 },
+        "small": { "size": "14px", "lineHeight": 1.6, "tracking": "0", "weight": 400 },
+        "label": { "size": "11px", "lineHeight": 1.3, "tracking": "0.08em", "weight": 400, "transform": "uppercase", "fontFamily": "mono" },
+        "caption": { "size": "12px", "lineHeight": 1.4, "tracking": "0.04em", "weight": 400 },
+        "mono": { "size": "13px", "lineHeight": 1.5, "tracking": "0", "weight": 400 }
+      },
+      "mobile": { "display": "clamp(40px, 12vw, 52px) below 640px" }
+    },
+    "spacing": { "1": "4px", "2": "8px", "3": "12px", "4": "16px", "6": "24px", "8": "32px", "12": "48px", "16": "64px", "24": "96px", "32": "128px" },
+    "radius": { "sm": "2px", "md": "4px" },
+    "border": { "thin": "1px solid #C8C4BC", "interactive": "1px solid #868280" }
+  },
+  "components": {
+    "nav": { "height": "48px", "position": "sticky", "background": "#F2F0EB", "borderBottom": "1px solid #C8C4BC", "activeIndicator": "2px solid signal underline", "mobile": "menu disclosure with language always visible" },
+    "card": { "background": "var(--color-ground)", "border": "var(--border-interactive)", "borderRadius": "var(--radius-md)", "padding": "var(--space-6)", "hover": "signal border in 150ms", "arrowIndicator": "0.6 opacity default, 1 on hover and focus", "element": "anchor wrapping the entire card" },
+    "cta": {
+      "primary": { "background": "#1F4E4A", "text": "#FFFFFF", "borderRadius": "4px", "padding": "12px 24px", "hover": "#163A37 in 100ms" },
+      "secondary": { "background": "transparent", "text": "#5C5A55", "border": "1px solid #868280", "borderRadius": "4px", "padding": "12px 24px" }
+    },
+    "label-gutter": { "width": "clamp(112px, 10vw, 180px)", "gap": "clamp(24px, 3vw, 56px)", "collapses": "below 860px" },
+    "figure": { "border": "1px solid #868280", "borderRadius": "4px", "padding": "24px", "caption": "FIG. 01 — NAME", "moduleFill": "#EAF0EF", "moduleStroke": "#868280", "pathStroke": "#1F4E4A" },
+    "availability-badge": { "dotSize": "10px", "dotColor": "#1F4E4A", "rule": "dot and text always together" }
+  },
+  "grid": { "maxWidth": "none — full viewport", "gutter": "clamp(20px, 3.5vw, 72px)", "caseStudy": { "desktop": "clamp(112px, 10vw, 180px) clamp(24px, 3vw, 56px) minmax(0, 1fr)", "proseMaxWidth": "62ch" } },
+  "three_d": {
+    "signature": "Systems Manifold",
+    "approach": "merged line-art module edges plus solid instanced signal channels",
+    "modules": [
+      { "name": "SOURCE", "type": "BoxGeometry", "dimensions": [3.0, 0.4, 0.4] },
+      { "name": "ROUTE", "type": "BoxGeometry", "dimensions": [0.6, 1.0, 0.6], "autonomousPivot": true },
+      { "name": "PROCESS", "type": "BoxGeometry", "dimensions": [0.8, 0.8, 0.8] },
+      { "name": "OUTPUT", "type": "BoxGeometry", "dimensions": [3.0, 0.4, 0.4] }
+    ],
+    "channels": 3,
+    "camera": { "type": "orthographic", "pitch": 20, "yaw": -15 },
+    "motion": { "globalRotationY": "0.05 rad/s delta-time", "routePivotY": "±10 degrees sinusoidal over 20s", "prefersReducedMotion": "SVG fallback" },
+    "performance": { "maxTriangles": 4000, "maxDrawCalls": 3, "devicePixelRatioCap": 1.5, "material": "LineBasicMaterial and MeshBasicMaterial" },
+    "fallbackTriggers": ["prefers-reduced-motion", "deviceMemory <= 2 heuristic", "WebGL2 unavailable", "context creation failure", "context loss"]
+  },
+  "motion": { "cardHoverBorder": "150ms ease-in-out", "ctaHover": "100ms ease-in", "navLinkHover": "80ms", "sectionEntry": "240ms ease-out fade plus 6px translateY", "reducedMotion": "0ms" },
+  "accessibility": { "wcag": "AA", "focusIndicator": "2px solid #1F4E4A with 2px offset", "colorOnlyStates": "forbidden", "touchTargets": "44x44px minimum", "canvas": "aria-hidden and unfocusable", "semanticHTML": { "h1": "one per page", "main": "present", "figures": "figure and figcaption", "cards": "article containing one anchor" } }
+}
