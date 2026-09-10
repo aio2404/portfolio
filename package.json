@@ -1,8 +1,8 @@
 {
-  "name": "portfolio-premium-devops-ai",
+  "name": "alexops-systems-portfolio",
   "private": true,
   "version": "1.0.0",
-  "description": "Portfolio moderne, responsive et professionnel pour profil DevOps / IA.",
+  "description": "AlexOps portfolio — MESURE systems specification.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,20 +10,25 @@
     "lint": "next lint"
   },
   "engines": {
-    "node": ">=18.17"
+    "node": ">=18.18"
   },
   "dependencies": {
     "@vapi-ai/web": "^2.5.2",
+    "geist": "^1.7.2",
     "lucide-react": "^0.470.0",
-    "next": "14.2.5",
+    "next": "^14.2.35",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@types/node": "^20.14.12",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.1",
+    "@types/three": "^0.185.4",
     "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.35",
     "postcss": "^8.4.41",
     "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4"
